@@ -1,0 +1,14 @@
+.TextInput {
+	height: 20px;
+	margin: 5px;
+	border-radius: 2px;
+	font-size: 15px;
+	border: 1px solid;
+	border-color: #AAAAAA;
+	padding-left: 5px;
+}
+
+.TextInputLarge {
+	height: 30px;
+	font-size: 15px;
+}

@@ -1,0 +1,18 @@
+.Header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
+	color: white;
+	padding-left: 80px;
+	padding-right: 80px;
+	background-color: #71d3d1;
+	background: linear-gradient(#71d3d1, #67bcba);
+}
+
+.HeaderRight {
+	display: flex;
+	float: right;
+	align-items: center;
+	flex-direction: row;
+}

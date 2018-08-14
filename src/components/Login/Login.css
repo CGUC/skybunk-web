@@ -1,0 +1,36 @@
+.Login {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: center;
+	background-color: #f4fffe;
+	font-family: 'Roboto', sans-serif;
+	margin-top: 0px;
+}
+
+.LoginTitle {
+	margin-right: 10px;
+}
+
+.Main {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.Card {
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	margin: 20px;
+	background-color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+}
