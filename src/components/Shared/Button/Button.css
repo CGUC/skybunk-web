@@ -1,0 +1,9 @@
+.Button {
+	margin: 5px;
+	height: 20px;
+}
+
+.ButtonLarge {
+	height: 30px;
+	font-size: 15px;
+}
