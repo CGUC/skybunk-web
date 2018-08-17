@@ -1,0 +1,38 @@
+.ChannelItem {
+    flex: 1;
+    flex-direction: "row";
+    align-self: "stretch";
+    align-items: "center";
+    border-bottom-color: '#CCCCCC';
+    border-bottom-width: 1;
+	height: 150;
+	width: 100%;
+	padding-left: 5;
+}
+
+.ChannelListButton {
+    flex: 1;
+    flex-direction: 'row';
+    justify-content: 'space-between';
+    align-items: 'center';
+    margin-left: 10;
+}
+
+.ChannelTitle {
+    font-size: 20;
+	text-align:'left';
+	margin-left: 10px;
+	white-space: nowrap;
+}
+
+.BellIcon {
+    width: 60;
+	height: 100%;
+	float: left;
+	padding: 10px;
+}
+
+.ArrowIcon {
+    width: 50;
+    height: 50;
+}

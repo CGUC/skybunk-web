@@ -1,0 +1,16 @@
+.ChannelList {
+    height: 100%;
+    width: 30%;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: #aaaaaa;
+    overflow-x: hidden;
+	padding: 10px;
+}
+
+.Channel {
+	height: 30px;
+	padding: 5px;
+	
+}
