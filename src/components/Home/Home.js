@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../Shared/Header/Header';
 import Channel from '../Shared/Channel/Channel';
+import Feed from '../Feed/Feed';
 import './Home.css';
 
 class Home extends Component {
@@ -32,7 +33,7 @@ class Home extends Component {
 					</div>
 					
 					<div className="Main">
-						<p>This is where the other stuff will go!</p>
+						<Feed />
 					</div>
 
 				</div>

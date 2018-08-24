@@ -6,7 +6,7 @@
     left: 0;
     background-color: #009999;
     overflow-x: hidden;
-	padding: 10px;
+    padding: 10px;
 }
 
 .Channel {
@@ -16,10 +16,17 @@
 }
 
 .Main {
+<<<<<<< HEAD
     width: 65%;
     float: right;
 }
 
 .ChannelListTable{
     width: 100%;
+=======
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+>>>>>>> 55b841ae1b20bb6122a332562641ff300b11ff09
 }
