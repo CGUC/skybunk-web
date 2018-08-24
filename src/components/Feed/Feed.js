@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Post from '../Post/PostComponent';
 import api from '../../ApiClient';
 
 const DEFAULT_POLL = 60 * 1000; // 1 minute
@@ -67,15 +68,7 @@ export default class Feed extends Component {
     }
 
     return (
-      <ul>
-        {posts.map(post => {
-          return (
-            <li>
-              <p>{post.content}</p>
-            </li>
-          )
-        })}
-      </ul>
+      posts.map(post => <Post data={post} />)
     )
   }
 }
