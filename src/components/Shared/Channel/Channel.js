@@ -4,12 +4,18 @@ import './Channel.css';
 class Channel extends Component {
   render() {
     return (
-  		<button className="ChannelItem">
-        <p className="BellIcon">BELL</p>
-        <h1 className="ChannelTitle">
-          {this.props.children}
-        </h1>
-      </button>
+      <tr>
+        <td className="ChannelItem">
+          <img src={require('../../../assets/bell-OFF.png')} className="BellIcon"/>
+          <img src={require('../../../assets/Bell-ON.png')} className="BellIcon hidden"/>
+          <button className="ChannelButton">
+            <h1 className="ChannelTitle">
+              {this.props.children}
+            </h1>
+            <img src={require('../../../assets/arrowright.png')} className="ArrowIcon" />
+          </button>
+        </td>
+      </tr>
     );
   }
 }

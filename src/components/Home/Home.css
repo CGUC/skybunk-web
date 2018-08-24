@@ -4,7 +4,7 @@
     position: fixed;
     z-index: 1;
     left: 0;
-    background-color: #aaaaaa;
+    background-color: #009999;
     overflow-x: hidden;
 	padding: 10px;
 }
@@ -13,4 +13,13 @@
 	height: 30px;
 	padding: 5px;
 	
+}
+
+.Main {
+    width: 65%;
+    float: right;
+}
+
+.ChannelListTable{
+    width: 100%;
 }

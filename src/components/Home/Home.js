@@ -12,21 +12,23 @@ class Home extends Component {
         </Header>
 				<div>
 					<div className="ChannelList">
-						<Channel>
-							Dummy Channel 1
-						</Channel>
-						<Channel>
-							Dummy Channel 2
-						</Channel>
-						<Channel>
-							Dummy Channel 3
-						</Channel>
-						<Channel>
-							Dummy Channel 4
-						</Channel>
-						<Channel>
-							Dummy Channel 5
-						</Channel>
+						<table className="ChannelListTable">
+							<Channel>
+								Dummy Channel 1
+							</Channel>
+							<Channel>
+								Dummy Channel 2
+							</Channel>
+							<Channel>
+								Dummy Channel 3
+							</Channel>
+							<Channel>
+								Dummy Channel 4
+							</Channel>
+							<Channel>
+								Dummy Channel 5
+							</Channel>
+						</table>
 					</div>
 					
 					<div className="Main">
