@@ -31,9 +31,7 @@ class Home extends Component {
 					</div>
 					
 					<div className="Main">
-						<div>
-							<Feed />
-						</div>
+						<Feed />
 					</div>
 
 				</div>

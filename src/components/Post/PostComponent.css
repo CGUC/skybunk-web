@@ -1,0 +1,41 @@
+.card {
+  flex: 1;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+  width: 550px;
+  background-color: gainsboro;
+  border-radius: 10px;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  margin: 10px;
+}
+
+.authorContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.channel {
+  background-color: rgba(218, 112, 214, 0.6);
+  border-radius: 5px;
+  padding: 1px 3px 1px 3px;
+  margin-left: 10px;
+}
+
+.content {
+  margin: 10px;
+}
+
+.timestamp {
+  padding: 0px;
+  margin: 0px;
+  color: grey;
+}
