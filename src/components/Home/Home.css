@@ -1,21 +1,37 @@
+.Home {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.Body {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 .ChannelList {
-    height: 100%;
-    width: 30%;
+    flex-grow: 1;
     position: fixed;
-    z-index: 1;
-    left: 0;
-    background-color: #aaaaaa;
-    overflow-x: hidden;
+    height: 100%;
+    background-color: #009999;
     padding: 10px;
 }
 
 .Channel {
 	height: 30px;
 	padding: 5px;
-	
 }
 
-.Main {
+.Feed {
+    flex-grow: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ChannelListTable{
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

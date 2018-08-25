@@ -1,13 +1,41 @@
 .ChannelItem {
     flex: 1;
     flex-direction: "row";
+    justify-content: flex-start;
     align-self: "stretch";
     align-items: "center";
     border-bottom-color: '#CCCCCC';
     border-bottom-width: 1;
 	height: 150;
 	width: 100%;
-	padding-left: 5;
+    padding-left: 5;
+    z-index: -1;
+    background-color: #fff;
+}
+
+.BellIcon {
+    width: 50px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.ChannelButton {
+    background-color: #fff;
+    border: none;
+    height: 100%;
+}
+
+.ChannelButton:hover  {
+    background-color: #f85441;
+    border-color: #f85441;
+    color: #fff;
+    cursor: pointer;
+}
+
+.ChannelButton:focus {
+    background-color: #df4b3a;
+    color: #fff;
+    border-color: #df4b3a;
 }
 
 .ChannelListButton {
@@ -19,20 +47,20 @@
 }
 
 .ChannelTitle {
-    font-size: 20;
-	text-align:'left';
+    /*font-size: 20px;*/
+    text-align:'left';
 	margin-left: 10px;
-	white-space: nowrap;
-}
-
-.BellIcon {
-    width: 60;
-	height: 100%;
-	float: left;
-	padding: 10px;
+    white-space: nowrap;
+    float: left;
+    cursor: pointer;
 }
 
 .ArrowIcon {
-    width: 50;
-    height: 50;
+    width: 50px;
+    height: 50px;
+    float: right;
+}
+
+.hidden {
+    display: none;
 }
