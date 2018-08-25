@@ -5,41 +5,41 @@ import Feed from '../Feed/Feed';
 import './Home.css';
 
 class Home extends Component {
-  render() {
-    return (
-      <div className="Home">
+	render() {
+		return (
+			<div className="Home">
 				<Header>
-        		<p className="Title">Login</p>
-        </Header>
-				<div>
+					<p className="Title">Login</p>
+				</Header>
+				
+				<div className="Body">
 					<div className="ChannelList">
 						<table className="ChannelListTable">
 							<Channel>
 								Dummy Channel 1
-							</Channel>
+									</Channel>
 							<Channel>
 								Dummy Channel 2
-							</Channel>
+									</Channel>
 							<Channel>
 								Dummy Channel 3
-							</Channel>
+									</Channel>
 							<Channel>
 								Dummy Channel 4
-							</Channel>
+									</Channel>
 							<Channel>
 								Dummy Channel 5
-							</Channel>
+									</Channel>
 						</table>
 					</div>
-					
-					<div className="Main">
+
+					<div className="Feed">
 						<Feed />
 					</div>
-
 				</div>
-      </div>
-    );
-  }
+			</div>
+		);
+	}
 }
 
 export default Home;
