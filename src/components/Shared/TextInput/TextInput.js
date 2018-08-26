@@ -6,13 +6,14 @@ class TextInput extends Component {
   render() {
     return (
   		<input 
-        type="text"
-        name={this.props.name}
-        value={this.props.value}
-        placeholder={this.props.placeholder}
-        size={this.props.size}
-        className={classNames('TextInput', {TextInputLarge: this.props.large})}
-      />
+            type="text"
+            name={this.props.name}
+            value={this.props.value}
+            placeholder={this.props.placeholder}
+            size={this.props.size}
+            className={classNames('TextInput', {TextInputLarge: this.props.large})}
+            onChange={this.props.onChange}
+        />
     );
   }
 }

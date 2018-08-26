@@ -8,8 +8,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Redirect to='/home' />
+        <Redirect to='/login' />
 
+      	<Route path="/login" component={Login}/>
         <Route path="/home" component={Home}/>
       </div>
     );
