@@ -5,7 +5,9 @@ class Header extends Component {
   render() {
     return (
     	<div className="Header">
-      	<h1>Skybunk</h1>
+        <div className="HeaderLeft">
+      	  <h1>Skybunk</h1>
+        </div>
       	<div className="HeaderRight">
       		{this.props.children}
       	</div>
