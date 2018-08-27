@@ -81,7 +81,7 @@ class Login extends Component {
         }
         else {
             const response = await api.post(
-                '/users',
+                '/users/login',
                 {},
                 {
                     username: this.state.newUsername,

@@ -5,6 +5,8 @@ import _ from 'lodash';
 import Post from '../Post/PostComponent';
 import api from '../../ApiClient';
 
+import './Feed.css';
+
 const PAGE_SIZE = 15;
 const DEFAULT_POLL = 60 * 1000; // 1 minute
 
@@ -135,13 +137,15 @@ export default class Feed extends Component {
     var posts = posts.map((post, i) => <Post key={`post-${i}`} data={post} />)
 
     return (
-      <InfiniteScroll
-        loadMore={this.loadNext.bind(this)}
-        loader={<div key={0}>Loading ...</div>}
-        hasMore={!loading && !loadedLastPage}
-      >
-        {posts}
-      </InfiniteScroll>
+      <div className="Feed">
+        <InfiniteScroll
+          loadMore={this.loadNext.bind(this)}
+          loader={<div key={0}>Loading ...</div>}
+          hasMore={!loading && !loadedLastPage}
+        >
+          {posts}
+        </InfiniteScroll>
+      </div>
     )
   }
 }
