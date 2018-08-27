@@ -4,15 +4,24 @@ import './TextInput.css';
 
 class TextInput extends Component {
   render() {
+    const {
+      type,
+      large,
+      name,
+      value,
+      placeholder,
+      size,
+      onChange
+    } = this.props;
     return (
   		<input 
-            type="text"
-            name={this.props.name}
-            value={this.props.value}
-            placeholder={this.props.placeholder}
-            size={this.props.size}
-            className={classNames('TextInput', {TextInputLarge: this.props.large})}
-            onChange={this.props.onChange}
+            type={type || "text"}
+            name={name}
+            value={value}
+            placeholder={placeholder}
+            size={size}
+            className={classNames('TextInput', {TextInputLarge: large})}
+            onChange={onChange}
         />
     );
   }
