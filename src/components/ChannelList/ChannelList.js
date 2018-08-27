@@ -38,6 +38,37 @@ class Channel extends Component {
     if (this.props.onClickChannel) this.props.onClickChannel(id);
   }
 
+  updateSubscription = (id, index) => {
+    if (['all', 'subs', 'myPosts'].includes(id)) return;
+
+    if (index === -1) {
+      this.setState({
+        subscribedChannels: [...this.state.subscribedChannels, id]
+      }, this.updateUserRequest);
+    }
+    else {
+      let subs = this.state.subscribedChannels;
+      subs.splice(index, 1);
+      this.setState({
+        subscribedChannels: subs,
+      }, this.updateUserRequest);
+    }
+  }
+
+  updateUserRequest = () => {
+    let {
+      user,
+      token
+    } = this.props;
+
+    user.subscribedChannels = this.state.subscribedChannels;
+    api.put(
+      `/users/${user._id}`,
+      { 'Authorization': 'Bearer ' + token },
+      user
+    ).catch(err => console.error(err));
+  }
+
   getChannelCardJSX(channels) {
     const subs = this.state.subscribedChannels;
     let sortedChannels = channels.sort((c1, c2) => {
@@ -60,11 +91,10 @@ class Channel extends Component {
 
         let icon = require('../../assets/bell-OFF.png');
         let hide = false;
- 
+
         const subIndex = subs.indexOf(channel.id);
         if (channel.id === 'subs') {
-          //icon = require('../../assets/my-subs-bell-Icon.png');
-          hide = true;
+          icon = require('../../assets/my-subs-bell-Icon.png');
         }
         else if (['all', 'myPosts'].includes(channel.id)) {
           //TODO: Give myPosts an icon
@@ -77,7 +107,9 @@ class Channel extends Component {
         return (
           <tr>
             <td className="ChannelItem">
-              <img src={icon} className="BellIcon" hidden={hide}/>
+              <button className="IconButton" onClick={() => { this.updateSubscription(channel.id, subIndex) }}>
+                <img src={icon} className="BellIcon" hidden={hide} />
+              </button>
               <button className="ChannelButton" onClick={() => { this.onClickChannel(channel.id) }}>
                 <h3 className="ChannelTitle">
                   {channel.name}
@@ -93,7 +125,7 @@ class Channel extends Component {
 
   render() {
     let { channels } = this.state;
-    
+
     var channelList = channels.map(channel => {
       return {
         name: channel.name,

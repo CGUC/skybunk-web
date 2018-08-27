@@ -17,6 +17,8 @@
     height: 100%;
     background-color: #009999;
     padding: 10px;
+    overflow: scroll;
+    direction: rtl;
 }
 
 .Channel {

@@ -11,7 +11,8 @@ class Home extends Component {
 
 	state = {
 		loading: true,
-		selectedChannelId: 'all'
+		selectedChannelId: 'all',
+		token: localStorage.getItem('skybunkToken')
 	}
 
 	async componentDidMount() {
@@ -19,7 +20,7 @@ class Home extends Component {
 	}
 
 	async getUser() {
-		var token = localStorage.getItem('skybunkToken');
+		const token = this.state.token;
 
 		this.setState({ loading: true });
 
@@ -42,7 +43,8 @@ class Home extends Component {
 			loading,
 			channels,
 			user,
-			selectedChannelId
+			selectedChannelId,
+			token
 		} = this.state;
 
 		let content = loading ? (
@@ -55,6 +57,7 @@ class Home extends Component {
 						<ChannelList
 							channels={channels}
 							user={user}
+							token={token}
 							onClickChannel={this.onClickChannel}
 						/>
 					</div>
