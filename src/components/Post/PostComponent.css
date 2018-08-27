@@ -2,10 +2,12 @@
   flex: 1;
   margin-top: 5px;
   margin-bottom: 5px;
-
+  padding: 10px;
   width: 550px;
-  background-color: gainsboro;
-  border-radius: 10px;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+
 }
 
 .headerContent {
@@ -24,9 +26,9 @@
 }
 
 .channel {
-  background-color: rgba(218, 112, 214, 0.6);
+  background-color: #F4F4F4;
   border-radius: 5px;
-  padding: 1px 3px 1px 3px;
+  padding: 3px 5px 3px 5px;
   margin-left: 10px;
 }
 
@@ -38,4 +40,42 @@
   padding: 0px;
   margin: 0px;
   color: grey;
+}
+
+.footers {
+  margin: 10px;
+  margin-top: 20px;
+}
+
+.addCommentContainer {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+
+.commentsContainer {
+}
+
+.comment {
+  background-color: #F4F4F4;
+  margin: 10px;
+  padding: 15px;
+  padding-bottom: 8px;
+  border-radius: 5px;
+}
+
+.line {
+  height: 1px;
+  background-color:  #CCCCCC;
+}
+
+.textArea {
+  padding: 5px;
+  width: 80%;
+  box-sizing: border-box;
+  resize: none;
+  font-size: 15px;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 3px;
 }
