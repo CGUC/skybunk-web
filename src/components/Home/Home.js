@@ -11,7 +11,7 @@ class Home extends Component {
 
 	state = {
 		loading: true,
-		selectedChannelId: 'all',
+		selectedChannel: { _id: 'all', name: 'All Feed' },
 		token: localStorage.getItem('skybunkToken')
 	}
 
@@ -33,8 +33,8 @@ class Home extends Component {
 		}
 	}
 
-	onClickChannel = (id) => {
-		this.setState({ selectedChannelId: id });
+	onClickChannel = (channel) => {
+		this.setState({ selectedChannel: channel });
 	}
 
 	constructor(props) {
@@ -67,7 +67,7 @@ class Home extends Component {
 			loading,
 			channels,
 			user,
-			selectedChannelId,
+			selectedChannel,
 			token
 		} = this.state;
 
@@ -91,7 +91,7 @@ class Home extends Component {
 
 					<div className="Feed">
 						<Feed
-							channelId={selectedChannelId}
+							channel={selectedChannel}
 							user={user}
 						/>
 					</div>

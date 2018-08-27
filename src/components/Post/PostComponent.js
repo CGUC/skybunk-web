@@ -15,30 +15,42 @@ export default class Post extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.data.comments !== prevProps.data.comments) {
+      this.setState({
+        comments: this.props.data.comments
+      })
+    }
+  }
+
   showComments() {
     this.setState({showComments: !this.state.showComments})
   }
   
   updateComment(event) {
     this.setState({
+      commentRef: event.target,
       commentContent: event.target.value,
     });
   }
 
   addComment() {
-    const {
-      data
-    } = this.props;
+    const { data } = this.props;
+    let { commentContent, commentRef } = this.state;
+
+    if (!commentContent) return;
+
+    commentRef.value = '';
 
     const token = localStorage.getItem('skybunkToken');
 
     api.get('/users/loggedInUser', {'Authorization': 'Bearer ' + token}, {})
     .then(user => {
-      const commentContent = {
+      const content = {
         author: user._id,
-        content: this.state.commentContent,
+        content: commentContent,
       }
-      api.post(`/posts/${data._id}/comment`, { 'Authorization': 'Bearer ' + token }, commentContent)
+      api.post(`/posts/${data._id}/comment`, { 'Authorization': 'Bearer ' + token }, content)
       .then(comments => {
         comments[comments.length - 1].author = {firstName: user.firstName, lastName: user.lastName}
         this.setState({
@@ -75,7 +87,7 @@ export default class Post extends React.Component {
 
     return (
       <div className="card">
-        <div className="header">
+        <div>
           <div className="headerLeft">
             {/* Profile pic */}
           </div>
@@ -99,7 +111,7 @@ export default class Post extends React.Component {
         </div>
         <div className="footers">
           {/* Likes */}
-          <a href="#" onClick={this.showComments.bind(this)}>
+          <a className="ShowComments" onClick={this.showComments.bind(this)}>
             {this.state.showComments ? 'Hide' : 'Show'} {comments.length} comments
           </a>
         </div>

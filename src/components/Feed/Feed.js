@@ -3,12 +3,13 @@ import InfiniteScroll from 'react-infinite-scroller';
 import _ from 'lodash';
 
 import Post from '../Post/PostComponent';
+import CreatePost from '../Post/Createpost';
 import api from '../../ApiClient';
 
 import './Feed.css';
 
 const PAGE_SIZE = 15;
-const DEFAULT_POLL = 60 * 1000; // 1 minute
+const DEFAULT_POLL = 10 * 1000; // 10 seconds
 
 
 export default class Feed extends Component {
@@ -19,7 +20,7 @@ export default class Feed extends Component {
   };
 
   async componentDidUpdate(prevProps) {
-    if (prevProps.channelId !== this.props.channelId) {
+    if (prevProps.channel._id !== this.props.channel._id) {
       this.setState({ page: 1 });
       await this.loadData({ wipe: true });
     }
@@ -27,11 +28,12 @@ export default class Feed extends Component {
 
   getUri = () => {
 
-    let { channelId, user } = this.props
+    let { channel, user } = this.props
+
+    if (!channel) channel = { _id: 'all' };
 
     const userId = user._id;
-
-    if (!channelId) channelId = 'all';
+    const channelId = channel._id;
 
     if (channelId === 'all') return '/posts';
     else if ('subs' === channelId) {
@@ -52,7 +54,7 @@ export default class Feed extends Component {
       console.warn("reloading")
       this.loadData({ reload: true });
     }, DEFAULT_POLL);
-    
+
     this.setState({ pollIntervalId });
   }
 
@@ -96,7 +98,7 @@ export default class Feed extends Component {
     var newPosts = [];
     var oldPosts = [];
     _.each(freshData, item => {
-      var existing = _.find(posts, post => post._id === item._id);
+      var existing = _.find(posts, { _id: item._id });
       if (existing) oldPosts.push(item);
       else newPosts.push(item);
     });
@@ -123,12 +125,41 @@ export default class Feed extends Component {
     this.loadData();
   }
 
+  addPost = (data) => {
+    const token = localStorage.getItem('skybunkToken');
+    const { channel, user } = this.props;
+
+    if (!channel.tags) return alert("Cannot add post to this channel");
+
+    const postContent = {
+      author: user._id,
+      tags: channel.tags,
+      content: data.content,
+    }
+
+    api.post(`/posts/`, { 'Authorization': 'Bearer ' + token }, postContent)
+      .then(() => {
+        this.loadData({ reload: true });
+      })
+      .catch(err => {
+        alert("Error adding post. Sorry about that!")
+      });
+  }
+
   render() {
     var {
       posts,
       loadedLastPage,
       loading
     } = this.state;
+
+    var { channel } = this.props;
+
+    var enableCreation = true;
+
+    if (['all', 'subs', 'myPosts'].includes(channel._id)) {
+      enableCreation = false;
+    }
 
     if (!posts) {
       return (<div>Loading ...</div>)
@@ -138,6 +169,10 @@ export default class Feed extends Component {
 
     return (
       <div className="Feed">
+        {enableCreation && <CreatePost
+          onAddPost={this.addPost}
+          channel={channel}
+        />}
         <InfiniteScroll
           loadMore={this.loadNext.bind(this)}
           loader={<div key={0}>Loading ...</div>}
