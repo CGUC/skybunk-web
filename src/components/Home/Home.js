@@ -37,6 +37,30 @@ class Home extends Component {
 		this.setState({ selectedChannelId: id });
 	}
 
+	constructor(props) {
+		super(props);
+		// This binding is necessary to make `this` work in the callback
+		this.toggleMobileMenu = this.toggleMobileMenu.bind(this);
+	  }
+
+	  toggleMobileMenu() {
+		  var elem = document.getElementsByClassName("ChannelList")[0];
+		  if (elem.classList) { 
+			elem.classList.toggle("hideMobile");
+		} else {
+			// For IE9
+			var classes = elem.className.split(" ");
+			var i = classes.indexOf("hideMobile");
+		
+			if (i >= 0) 
+				classes.splice(i, 1);
+			else 
+				classes.push("hideMobile");
+				elem.className = classes.join(" ");
+		  return;
+	  };
+	}
+	
 	render() {
 
 		const {
@@ -53,7 +77,10 @@ class Home extends Component {
 			</div>
 		) : (
 				<div className="Body">
-					<div className="ChannelList">
+					<div className="mobileMenuBtnRow">
+						<button className="mobileMenuBtn" onClick={this.toggleMobileMenu}>Menu</button>
+					</div>
+					<div className="ChannelList hideMobile">
 						<ChannelList
 							channels={channels}
 							user={user}

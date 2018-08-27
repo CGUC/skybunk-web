@@ -40,3 +40,59 @@
     justify-content: flex-start;
     align-items: center;
 }
+
+.mobileMenuBtn {
+    display:none;
+    background-color: transparent;
+    border: transparent;
+    color: #fff;
+    font-size: 16px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.mobileMenuBtn:hover {
+    background-color: #fff;
+    border-color: #fff;
+    color: #009999;
+}
+
+.mobileMenuBtnRow {
+    width:100%;
+    background-color: #009999;
+    border-color: #009999;
+    display: none;
+}
+
+@media (max-width:768px){
+    .mobileMenuBtn {
+        text-align: center;
+    }
+    .ChannelList {
+        height: auto;
+        padding: 10px;
+        width: 100%;
+        position: relative;
+    }
+    .mobileMenuBtn {
+        display: block;
+    }
+    .hideMobile{
+        display: none;
+    }
+    .Body {
+        display: block;
+    }
+
+    .Channel {
+        height: 15px;
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    .mobileMenuBtnRow {
+        display: block;
+    }
+}
