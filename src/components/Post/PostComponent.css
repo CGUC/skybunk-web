@@ -7,7 +7,10 @@
   background-color: #FFFFFF;
   border-radius: 2px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+}
 
+.creationCard {
+  margin-bottom: 25px;
 }
 
 .headerContent {
@@ -26,7 +29,7 @@
 }
 
 .channel {
-  background-color: #F4F4F4;
+  background-color: rgb(235, 235, 235);
   border-radius: 5px;
   padding: 3px 5px 3px 5px;
   margin-left: 10px;
@@ -45,6 +48,27 @@
 .footers {
   margin: 10px;
   margin-top: 20px;
+}
+
+.creationField {
+  width: 100%;
+  overflow: auto;
+  resize: none;
+  font-size: 18px;
+}
+
+.PostButton {
+  float: right;
+}
+
+.ShowComments {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
+
+.ShowComments:active {
+  color: purple;
 }
 
 .addCommentContainer {

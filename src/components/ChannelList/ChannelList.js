@@ -3,9 +3,9 @@ import api from '../../ApiClient';
 import './ChannelList.css';
 
 const DEFAULT_CHANNELS = [
-  { name: 'All Feed', id: 'all' },
-  { name: 'My Posts', id: 'myPosts' },
-  { name: 'My Subscriptions', id: 'subs' },
+  { name: 'All Feed', _id: 'all' },
+  { name: 'My Posts', _id: 'myPosts' },
+  { name: 'My Subscriptions', _id: 'subs' },
 ];
 
 class Channel extends Component {
@@ -34,8 +34,8 @@ class Channel extends Component {
       .catch(err => console.error(err));
   }
 
-  onClickChannel = (id) => {
-    if (this.props.onClickChannel) this.props.onClickChannel(id);
+  onClickChannel = (channel) => {
+    if (this.props.onClickChannel) this.props.onClickChannel(channel);
   }
 
   updateSubscription = (id, index) => {
@@ -72,15 +72,15 @@ class Channel extends Component {
   getChannelCardJSX(channels) {
     const subs = this.state.subscribedChannels;
     let sortedChannels = channels.sort((c1, c2) => {
-      if (c1.id === 'all') return -1;
-      if (c2.id === 'all') return 1;
-      if (c1.id === 'myPosts') return -1;
-      if (c2.id === 'myPosts') return 1;
-      if (c1.id === 'subs') return -1;
-      if (c2.id === 'subs') return 1;
+      if (c1._id === 'all') return -1;
+      if (c2._id === 'all') return 1;
+      if (c1._id === 'myPosts') return -1;
+      if (c2._id === 'myPosts') return 1;
+      if (c1._id === 'subs') return -1;
+      if (c2._id === 'subs') return 1;
 
-      if (subs.includes(c1.id) && !subs.includes(c2.id)) return -1;
-      if (!subs.includes(c1.id) && subs.includes(c2.id)) return 1;
+      if (subs.includes(c1._id) && !subs.includes(c2._id)) return -1;
+      if (!subs.includes(c1._id) && subs.includes(c2._id)) return 1;
 
       if (c1.name < c2.name) return -1;
       return 1;
@@ -92,11 +92,11 @@ class Channel extends Component {
         let icon = require('../../assets/bell-OFF.png');
         let hide = false;
 
-        const subIndex = subs.indexOf(channel.id);
-        if (channel.id === 'subs') {
+        const subIndex = subs.indexOf(channel._id);
+        if (channel._id === 'subs') {
           icon = require('../../assets/my-subs-bell-Icon.png');
         }
-        else if (['all', 'myPosts'].includes(channel.id)) {
+        else if (['all', 'myPosts'].includes(channel._id)) {
           //TODO: Give myPosts an icon
           hide = true;
         }
@@ -107,10 +107,10 @@ class Channel extends Component {
         return (
           <tr>
             <td className="ChannelItem">
-              <button className="IconButton" onClick={() => { this.updateSubscription(channel.id, subIndex) }}>
+              <button className="IconButton" onClick={() => { this.updateSubscription(channel._id, subIndex) }}>
                 <img src={icon} className="BellIcon" hidden={hide} />
               </button>
-              <button className="ChannelButton" onClick={() => { this.onClickChannel(channel.id) }}>
+              <button className="ChannelButton" onClick={() => { this.onClickChannel(channel) }}>
                 <h3 className="ChannelTitle">
                   {channel.name}
                 </h3>
@@ -126,14 +126,7 @@ class Channel extends Component {
   render() {
     let { channels } = this.state;
 
-    var channelList = channels.map(channel => {
-      return {
-        name: channel.name,
-        id: channel._id
-      }
-    });
-
-    channelList = DEFAULT_CHANNELS.concat(channelList);
+    let channelList = DEFAULT_CHANNELS.concat(channels);
 
     let channelCards = this.getChannelCardJSX(channelList);
 
