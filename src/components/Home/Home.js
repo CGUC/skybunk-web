@@ -8,6 +8,7 @@ import api from '../../ApiClient';
 import './Home.css';
 
 class Home extends Component {
+<<<<<<< HEAD
 
 	state = {
 		loading: true,
@@ -36,6 +37,32 @@ class Home extends Component {
 		this.setState({ selectedChannelId: id });
 	}
 
+=======
+	constructor(props) {
+		super(props);
+		// This binding is necessary to make `this` work in the callback
+		this.toggleMobileMenu = this.toggleMobileMenu.bind(this);
+	  }
+
+	  toggleMobileMenu() {
+		  var elem = document.getElementsByClassName("ChannelListTable")[0];
+		  if (elem.classList) { 
+			elem.classList.toggle("hideMobile");
+		} else {
+			// For IE9
+			var classes = elem.className.split(" ");
+			var i = classes.indexOf("hideMobile");
+		
+			if (i >= 0) 
+				classes.splice(i, 1);
+			else 
+				classes.push("hideMobile");
+				elem.className = classes.join(" ");
+		  return;
+	  };
+	}
+	
+>>>>>>> Added mobile styling to home page and channels
 	render() {
 
 		const {
@@ -52,11 +79,36 @@ class Home extends Component {
 		) : (
 				<div className="Body">
 					<div className="ChannelList">
+<<<<<<< HEAD
 						<ChannelList
 							channels={channels}
 							user={user}
 							onClickChannel={this.onClickChannel}
 						/>
+=======
+						<div>
+							<button className="mobileMenuBtn" onClick={this.toggleMobileMenu}>Menu</button>
+						</div>
+						<table className="ChannelListTable hideMobile">
+							<tbody>
+								<Channel>
+									Dummy Channel 1
+								</Channel>
+								<Channel>
+									Dummy Channel 2
+								</Channel>
+								<Channel>
+									Dummy Channel 3
+								</Channel>
+								<Channel>
+									Dummy Channel 4
+								</Channel>
+								<Channel>
+									Dummy Channel 5
+								</Channel>
+							</tbody>
+						</table>
+>>>>>>> Added mobile styling to home page and channels
 					</div>
 
 					<div className="Feed">
