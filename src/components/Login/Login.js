@@ -18,7 +18,8 @@ class Login extends Component {
             firstName: null,
             lastName: null,
             goldenTicket: null,
-            errorMessage: null,
+            loginError: null,
+            registerError: null,
             loading: false
         };
     }
@@ -35,7 +36,7 @@ class Login extends Component {
         this.setState({loading: true});
 
         const response = await api.post(
-            '/users',
+            '/users/login',
             {},
             {
                 username: this.state.username,
@@ -47,6 +48,7 @@ class Login extends Component {
             this.setState({
                 password: null,
                 loading: false,
+                loginError: response.err.message
             });
         }
         else {
@@ -73,7 +75,7 @@ class Login extends Component {
         if (response.message) {
             this.setState({
                 newPassword: null,
-                errorMessage: response.message,
+                registerError: response.message,
                 loading: false,
             });
         }
@@ -101,17 +103,23 @@ class Login extends Component {
     }
 
     render() {
+        const { loginError, resgisterError } = this.state;
         return (
-            <div className="Login">
+            <div className="Main">
                 <Header>
-                    <p className="LoginTitle">Login</p>
-                    <TextInput name="username" placeholder="Username" onChange={this.updateFormStateFunc('username')}/>
-                    <TextInput name="password" placeholder="Password" onChange={this.updateFormStateFunc('password')}/>
-                    <Button onClick={this.submitLogin.bind(this)}>
-                        Login
-                    </Button>
+                    <div className="Login">
+                        <div className="LoginTitle">Login</div>
+                        <div className="LoginForms">
+                            <TextInput name="username" placeholder="Username" onChange={this.updateFormStateFunc('username')}/>
+                            <TextInput type="password" name="password" placeholder="Password" onChange={this.updateFormStateFunc('password')}/>
+                            <Button onClick={this.submitLogin.bind(this)}>
+                                Login
+                            </Button>
+                        </div>
+                        {loginError ? <div className="LoginError">*{loginError}</div> : null}
+                    </div>
                 </Header>
-                <div className="Main">
+                <div className="Register">
                     <div className="Card">
                         <h2>Register</h2>
                         <div>
@@ -119,9 +127,9 @@ class Login extends Component {
                             <TextInput large name="lastName" placeholder="Last Name" size={15} onChange={this.updateFormStateFunc('lastName')}/>
                         </div>
                         <TextInput large name="newUsername" placeholder="Username" size={33} onChange={this.updateFormStateFunc('newUsername')}/>
-                        <TextInput large name="newPassword" placeholder="Password" size={33} onChange={this.updateFormStateFunc('newPassword')}/>
+                        <TextInput large type="password" name="newPassword" placeholder="Password" size={33} onChange={this.updateFormStateFunc('newPassword')}/>
                         <TextInput large name="goldenTicket" placeholder="Golden Ticket" size={33} onChange={this.updateFormStateFunc('goldenTicket')}/>
-                        {this.state.errorMessage ? <p style={{color: 'red'}}>*{this.state.errorMessage}</p> : null}
+                        {resgisterError ? <p style={{color: 'red'}}>*{resgisterError}</p> : null}
                         <Button large onClick={this.submitRegister.bind(this)}>
                             Register
                         </Button>

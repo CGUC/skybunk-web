@@ -6,7 +6,7 @@ import Post from '../Post/PostComponent';
 import api from '../../ApiClient';
 
 const PAGE_SIZE = 15;
-const DEFAULT_POLL = 10 * 1000; // 1 minute
+const DEFAULT_POLL = 60 * 1000; // 1 minute
 
 
 export default class Feed extends Component {
@@ -16,25 +16,29 @@ export default class Feed extends Component {
     posts: []
   };
 
+  async componentDidUpdate(prevProps) {
+    if (prevProps.channelId !== this.props.channelId) {
+      this.setState({ page: 1 });
+      await this.loadData({ wipe: true });
+    }
+  }
+
   getUri = () => {
-    return '/posts';
 
-    // TODO: multipurpose Feed
-    // const userId = this.props.navigation.getParam('userId');
+    let { channelId, user } = this.props
 
-    // var channel = this.props.navigation.getParam('channel');
-    // if (!channel) channel = { _id: 'all' };
+    const userId = user._id;
 
-    // if ('all' === channel._id) {
-    //   return '/posts'
-    // }
-    // else if ('subs' === channel._id) {
-    //   return `/users/${userId}/subscribedChannels/posts`;
-    // }
-    // else if ('myPosts' === channel._id) {
-    //   return `/posts/user/${userId}`;
-    // }
-    // return `/channels/${channel._id}/posts`;
+    if (!channelId) channelId = 'all';
+
+    if (channelId === 'all') return '/posts';
+    else if ('subs' === channelId) {
+      return `/users/${userId}/subscribedChannels/posts`;
+    }
+    else if ('myPosts' === channelId) {
+      return `/posts/user/${userId}`;
+    }
+    return `/channels/${channelId}/posts`;
   }
 
   async componentWillMount() {
@@ -50,6 +54,10 @@ export default class Feed extends Component {
     this.setState({ pollIntervalId });
   }
 
+  /**
+   * @param options.reload - updates existing posts and appends new
+   * @param options.wipe - replace, and do not append, existing posts in feed with results
+   */
   loadData = async (options = {}) => {
     var isReload = options.reload;
 
@@ -63,8 +71,10 @@ export default class Feed extends Component {
     await api.get(this.getUri(), { page })
       .then(response => {
         if (isReload) return this.updateRecent(response);
+        var posts = options.wipe ? response : this.state.posts.concat(response);
+
         this.setState({
-          posts: this.state.posts.concat(response),
+          posts,
           loadedLastPage: response.length < PAGE_SIZE,
           loading: false
         });

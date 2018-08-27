@@ -1,43 +1,80 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import Header from '../Shared/Header/Header';
-import Channel from '../Shared/Channel/Channel';
+import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
+import api from '../../ApiClient';
 import './Home.css';
 
 class Home extends Component {
+
+	state = {
+		loading: true,
+		selectedChannelId: 'all'
+	}
+
+	async componentDidMount() {
+		await this.getUser();
+	}
+
+	async getUser() {
+		var token = localStorage.getItem('skybunkToken');
+
+		this.setState({ loading: true });
+
+		try {
+			var response = await api.get('/users/loggedInUser', { 'Authorization': 'Bearer ' + token });
+			this.setState({ user: response, loading: false });
+		} catch (err) {
+			console.log(err);
+			this.props.history.push('/login');
+		}
+	}
+
+	onClickChannel = (id) => {
+		this.setState({ selectedChannelId: id });
+	}
+
 	render() {
-		return (
-			<div className="Home">
-				<Header />
-				
+
+		const {
+			loading,
+			channels,
+			user,
+			selectedChannelId
+		} = this.state;
+
+		let content = loading ? (
+			<div>
+				Loading...
+			</div>
+		) : (
 				<div className="Body">
 					<div className="ChannelList">
-						<table className="ChannelListTable">
-							<Channel>
-								Dummy Channel 1
-									</Channel>
-							<Channel>
-								Dummy Channel 2
-									</Channel>
-							<Channel>
-								Dummy Channel 3
-									</Channel>
-							<Channel>
-								Dummy Channel 4
-									</Channel>
-							<Channel>
-								Dummy Channel 5
-									</Channel>
-						</table>
+						<ChannelList
+							channels={channels}
+							user={user}
+							onClickChannel={this.onClickChannel}
+						/>
 					</div>
 
 					<div className="Feed">
-						<Feed />
+						<Feed
+							channelId={selectedChannelId}
+							user={user}
+						/>
 					</div>
 				</div>
+			);
+
+		return (
+			<div className="Home">
+				<Header />
+				{content}
 			</div>
 		);
 	}
 }
 
-export default Home;
+export default withRouter(Home);

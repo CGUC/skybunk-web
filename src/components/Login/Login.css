@@ -1,4 +1,4 @@
-.Login {
+.Main {
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -9,11 +9,33 @@
 	margin-top: 0px;
 }
 
-.LoginTitle {
-	margin-right: 10px;
+.Login {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin-top: 10px;
+	height: 80px;
 }
 
-.Main {
+.LoginTitle {
+	margin-right: 10px;
+	margin-left: 5px;
+	padding: 0px;
+}
+
+.LoginForms {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.LoginError {
+	color: rgb(179, 21, 21);
+	margin-left: 5px;
+}
+
+.Register {
 	padding-top: 80px;
 	flex: 1;
 	display: flex;
