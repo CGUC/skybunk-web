@@ -8,9 +8,7 @@ class Home extends Component {
 	render() {
 		return (
 			<div className="Home">
-				<Header>
-					<p className="Title">Login</p>
-				</Header>
+				<Header />
 				
 				<div className="Body">
 					<div className="ChannelList">
