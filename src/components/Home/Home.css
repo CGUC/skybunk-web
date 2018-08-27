@@ -59,6 +59,13 @@
     color: #009999;
 }
 
+.mobileMenuBtnRow {
+    width:100%;
+    background-color: #009999;
+    border-color: #009999;
+    display: none;
+}
+
 @media (max-width:768px){
     .mobileMenuBtn {
         text-align: center;
@@ -83,5 +90,9 @@
         height: 15px;
         padding: 5px;
         font-size: 12px;
+    }
+
+    .mobileMenuBtnRow {
+        display: block;
     }
 }
