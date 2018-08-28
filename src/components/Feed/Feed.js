@@ -156,7 +156,7 @@ export default class Feed extends Component {
       loading
     } = this.state;
 
-    var { channel } = this.props;
+    var { channel, user } = this.props;
 
     var enableCreation = true;
 
@@ -168,7 +168,16 @@ export default class Feed extends Component {
       return (<div>Loading ...</div>)
     }
 
-    var posts = posts.map((post, i) => <Post key={`post-${i}`} data={post} />)
+    var posts = posts.map((post, i) => {
+      return (
+        <Post
+          key={`post-${i}`}
+          data={post}
+          user={user}
+          update={() => this.loadData({ reload: true })}
+        />
+      )
+    })
 
     return (
       <div className="Feed">

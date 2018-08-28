@@ -1,5 +1,7 @@
 import React from 'react';
 import date from 'date-fns';
+import _ from 'lodash';
+
 import Button from '../Shared/Button/Button';
 import api from '../../ApiClient';
 
@@ -11,22 +13,64 @@ export default class Post extends React.Component {
     this.state = {
       showComments: false,
       comments: props.data.comments,
-      commentContent: null
+      commentContent: null,
+      profilePicture: null,
+      commentProfilePictures: null,
     };
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.data.comments !== prevProps.data.comments) {
+  async componentDidMount() {
+    this.fetchProfilePicture();
+  }
+
+  async fetchProfilePicture() {
+    await api.get(`/users/${this.props.data.author._id}/profilePicture`, {}).then(pic => {
       this.setState({
-        comments: this.props.data.comments
+        profilePicture: pic,
+      });
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  async fetchCommentProfilePictures() {
+    var comments = this.props.data.comments;
+
+    var pics = await Promise.all(_.map(comments, async comment => {
+      var pic = await api.get(`/users/${comment.author._id}/profilePicture`, {});
+      return { id: comment._id, val: pic };
+    }));
+
+    var commentProfilePictures = _.transform(pics, (result, pic) => {
+      result[pic.id] = pic.val;
+    }, {});
+
+    this.setState({ commentProfilePictures });
+
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      data,
+    } = this.props;
+
+    if (data.comments !== prevProps.data.comments) {
+      this.setState({
+        comments: data.comments
       })
+    }
+    if (data.author._id !== prevProps.data.author._id) {
+      this.fetchProfilePicture();
     }
   }
 
   showComments() {
-    this.setState({showComments: !this.state.showComments})
+    if (!this.state.commentProfilePictures && !this.state.showComments) {
+      this.fetchCommentProfilePictures();
+    }
+    this.setState({ showComments: !this.state.showComments })
   }
-  
+
   updateComment(event) {
     this.setState({
       commentRef: event.target,
@@ -44,41 +88,70 @@ export default class Post extends React.Component {
 
     const token = localStorage.getItem('skybunkToken');
 
-    api.get('/users/loggedInUser', {'Authorization': 'Bearer ' + token}, {})
-    .then(user => {
-      const content = {
-        author: user._id,
-        content: commentContent,
-      }
-      api.post(`/posts/${data._id}/comment`, { 'Authorization': 'Bearer ' + token }, content)
-      .then(comments => {
-        comments[comments.length - 1].author = {firstName: user.firstName, lastName: user.lastName}
-        this.setState({
-          comments
-        })
+    api.get('/users/loggedInUser', { 'Authorization': 'Bearer ' + token }, {})
+      .then(user => {
+        const content = {
+          author: user._id,
+          content: commentContent,
+        }
+        api.post(`/posts/${data._id}/comment`, { 'Authorization': 'Bearer ' + token }, content)
+          .then(comments => {
+            comments[comments.length - 1].author = { firstName: user.firstName, lastName: user.lastName }
+            this.setState({
+              comments
+            })
+          })
+          .catch(err => {
+            alert("Error adding comment. Sorry about that!")
+          });
       })
       .catch(err => {
         alert("Error adding comment. Sorry about that!")
-      }); 
-    })
-    .catch(err => {
-      alert("Error adding comment. Sorry about that!")
-    });
+      });
+  }
+
+  toggleLike = () => {
+    const { data, update, user } = this.props;
+    const token = localStorage.getItem('skybunkToken');
+
+    var updatedContent = data;
+
+    if (this.isLiked()) {
+      updatedContent.likes--;
+      updatedContent.usersLiked = _.filter(updatedContent.usersLiked, u => u !== user._id);
+    } else {
+      updatedContent.likes++;
+      updatedContent.usersLiked.push(user._id);
+    }
+    if (updatedContent.likes < 0) updatedContent.likes = 0;
+
+    api.put(`/posts/${data._id}`, { 'Authorization': 'Bearer ' + token }, updatedContent)
+      .then(() => {
+        update && update();
+      })
+      .catch(err => {
+        console.warn(err)
+      });
+  }
+
+  isLiked() {
+    const { data, user } = this.props;
+    return data.usersLiked.includes(user._id);
   }
 
   render() {
-    const {
-      data
-    } = this.props;
+    const { profilePicture, commentProfilePictures } = this.state;
+
     var {
       author,
       content,
       likes,
-      isLiked,
       createdAt,
-      isLiked,
       tags,
-    } = data;
+    } = this.props.data;
+
+    var likeIcon = this.isLiked() ? require('../../assets/liked-cookie.png') : require('../../assets/cookie-icon.png')
+
     const comments = this.state.comments;
 
     var authorName = `${author.firstName} ${author.lastName}`;
@@ -87,21 +160,27 @@ export default class Post extends React.Component {
 
     return (
       <div className="card">
-        <div>
+        <div className="headerContainer">
           <div className="headerLeft">
-            {/* Profile pic */}
-          </div>
-          <div className="headerContent">
-            <div className="authorContainer">
-              <div>
-                {authorName}
+
+            {profilePicture && <img
+              className="profilePic"
+              src={`data:image/png;base64,${profilePicture}`}
+            />}
+
+            <div className="headerBody">
+              <div className="authorDetails">
+                <div>
+                  {authorName}
+                </div>
+                <div className="channel">
+                  {channel}
+                </div>
               </div>
-              <div className="channel">
-                {channel}
-              </div>
+              <p className="timestamp">{createdAt}</p>
             </div>
-            <p className="timestamp">{createdAt}</p>
           </div>
+
           <div className="headerRight">
             {/* Edit button */}
           </div>
@@ -110,26 +189,40 @@ export default class Post extends React.Component {
           <p>{content}</p>
         </div>
         <div className="footers">
-          {/* Likes */}
+          <div className="likesContainer">
+            <button className="likeButton" onClick={this.toggleLike}>
+              <img src={likeIcon} className="likeIcon" />
+            </button>
+            {`${likes} ${likes === 1 ? 'like' : 'likes'}`}
+          </div>
           <a className="ShowComments" onClick={this.showComments.bind(this)}>
             {this.state.showComments ? 'Hide' : 'Show'} {comments.length} comments
           </a>
+
         </div>
-        {this.state.showComments ? <div className="commentsContainer">
-          <div className="line"/>
-          {comments.map(comment => {
-            return (
-            <div key={comment._id} className="comment">
-              <b>{comment.author.firstName} {comment.author.lastName}</b>
-              <p>{comment.content}</p>
-            </div>)
-          })}
-        </div> : null }
+        {
+          this.state.showComments ? <div className="commentsContainer">
+            <div className="line" />
+            {comments.map(comment => {
+              return (
+                <div key={comment._id} className="comment">
+                  <div className="commentHeader">
+                    {commentProfilePictures && commentProfilePictures[comment._id] && <img
+                      className="commentProfilePic"
+                      src={`data:image/png;base64,${commentProfilePictures[comment._id]}`}
+                    />}
+                    <b>{comment.author.firstName} {comment.author.lastName}</b>
+                  </div>
+                  <p>{comment.content}</p>
+                </div>)
+            })}
+          </div> : null
+        }
         <div className="addCommentContainer">
-          <textarea className="textArea" placeholder="Add Comment" rows={1} onChange={this.updateComment.bind(this)}/>
+          <textarea className="textArea" placeholder="Add Comment" rows={1} onChange={this.updateComment.bind(this)} />
           <Button large onClick={this.addComment.bind(this)}>Comment</Button>
         </div>
-      </div>
+      </div >
     )
   }
 }

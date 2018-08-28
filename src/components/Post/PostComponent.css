@@ -13,21 +13,44 @@
   margin-bottom: 25px;
 }
 
-.headerContent {
+.headerContainer {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
   margin: 10px;
 }
 
-.authorContainer {
+.headerLeft {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
+.headerBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.authorDetails {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
 }
 
+.profilePic {
+  height: 50px;
+  border-radius: 25px;
+  margin-right: 10px;
+  border-width: 2px;
+  border: 1px solid #fc4970;
+}
 .channel {
   background-color: rgb(235, 235, 235);
   border-radius: 5px;
@@ -48,6 +71,31 @@
 .footers {
   margin: 10px;
   margin-top: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.likesContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.likeButton {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.likeIcon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 .creationField {
@@ -77,15 +125,26 @@
   margin: 10px;
 }
 
-.commentsContainer {
-}
-
 .comment {
   background-color: #F4F4F4;
   margin: 10px;
   padding: 15px;
   padding-bottom: 8px;
   border-radius: 5px;
+}
+
+.commentHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.commentProfilePic {
+  height: 30px;
+  border-radius: 15px;
+  margin-right: 10px;
+  border: 1px solid #fc4970;
 }
 
 .line {
