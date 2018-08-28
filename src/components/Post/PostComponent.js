@@ -15,7 +15,7 @@ export default class Post extends React.Component {
       comments: props.data.comments,
       commentContent: null,
       profilePicture: null,
-      commentProfilePictures: null
+      commentProfilePictures: null,
     };
   }
 
@@ -50,12 +50,16 @@ export default class Post extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.data.comments !== prevProps.data.comments) {
+    const {
+      data,
+    } = this.props;
+
+    if (data.comments !== prevProps.data.comments) {
       this.setState({
-        comments: this.props.data.comments
+        comments: data.comments
       })
     }
-    if (this.props.data.author._id !== prevProps.data.author._id) {
+    if (data.author._id !== prevProps.data.author._id) {
       this.fetchProfilePicture();
     }
   }
@@ -106,6 +110,35 @@ export default class Post extends React.Component {
       });
   }
 
+  toggleLike = () => {
+    const { data, update, user } = this.props;
+    const token = localStorage.getItem('skybunkToken');
+
+    var updatedContent = data;
+
+    if (this.isLiked()) {
+      updatedContent.likes--;
+      updatedContent.usersLiked = _.filter(updatedContent.usersLiked, u => u !== user._id);
+    } else {
+      updatedContent.likes++;
+      updatedContent.usersLiked.push(user._id);
+    }
+    if (updatedContent.likes < 0) updatedContent.likes = 0;
+
+    api.put(`/posts/${data._id}`, { 'Authorization': 'Bearer ' + token }, updatedContent)
+      .then(() => {
+        update && update();
+      })
+      .catch(err => {
+        console.warn(err)
+      });
+  }
+
+  isLiked() {
+    const { data, user } = this.props;
+    return data.usersLiked.includes(user._id);
+  }
+
   render() {
     const { profilePicture, commentProfilePictures } = this.state;
 
@@ -113,10 +146,11 @@ export default class Post extends React.Component {
       author,
       content,
       likes,
-      isLiked,
       createdAt,
       tags,
     } = this.props.data;
+
+    var likeIcon = this.isLiked() ? require('../../assets/liked-cookie.png') : require('../../assets/cookie-icon.png')
 
     const comments = this.state.comments;
 
@@ -155,10 +189,16 @@ export default class Post extends React.Component {
           <p>{content}</p>
         </div>
         <div className="footers">
-          {/* Likes */}
+          <div className="likesContainer">
+            <button className="likeButton" onClick={this.toggleLike}>
+              <img src={likeIcon} className="likeIcon" />
+            </button>
+            {`${likes} ${likes === 1 ? 'like' : 'likes'}`}
+          </div>
           <a className="ShowComments" onClick={this.showComments.bind(this)}>
             {this.state.showComments ? 'Hide' : 'Show'} {comments.length} comments
           </a>
+
         </div>
         {
           this.state.showComments ? <div className="commentsContainer">

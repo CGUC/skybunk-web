@@ -71,6 +71,31 @@
 .footers {
   margin: 10px;
   margin-top: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.likesContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.likeButton {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.likeIcon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 .creationField {
