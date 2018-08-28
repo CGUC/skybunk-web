@@ -11,8 +11,19 @@ export default class Post extends React.Component {
     this.state = {
       showComments: false,
       comments: props.data.comments,
-      commentContent: null
+      commentContent: null,
+      profilePicture: null
     };
+  }
+
+  async componentDidMount() {
+    await api.get(`/users/${this.props.data.author._id}/profilePicture`, {}).then(pic => {
+      this.setState({
+        profilePicture: pic,
+      });
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -24,9 +35,9 @@ export default class Post extends React.Component {
   }
 
   showComments() {
-    this.setState({showComments: !this.state.showComments})
+    this.setState({ showComments: !this.state.showComments })
   }
-  
+
   updateComment(event) {
     this.setState({
       commentRef: event.target,
@@ -44,41 +55,40 @@ export default class Post extends React.Component {
 
     const token = localStorage.getItem('skybunkToken');
 
-    api.get('/users/loggedInUser', {'Authorization': 'Bearer ' + token}, {})
-    .then(user => {
-      const content = {
-        author: user._id,
-        content: commentContent,
-      }
-      api.post(`/posts/${data._id}/comment`, { 'Authorization': 'Bearer ' + token }, content)
-      .then(comments => {
-        comments[comments.length - 1].author = {firstName: user.firstName, lastName: user.lastName}
-        this.setState({
-          comments
-        })
+    api.get('/users/loggedInUser', { 'Authorization': 'Bearer ' + token }, {})
+      .then(user => {
+        const content = {
+          author: user._id,
+          content: commentContent,
+        }
+        api.post(`/posts/${data._id}/comment`, { 'Authorization': 'Bearer ' + token }, content)
+          .then(comments => {
+            comments[comments.length - 1].author = { firstName: user.firstName, lastName: user.lastName }
+            this.setState({
+              comments
+            })
+          })
+          .catch(err => {
+            alert("Error adding comment. Sorry about that!")
+          });
       })
       .catch(err => {
         alert("Error adding comment. Sorry about that!")
-      }); 
-    })
-    .catch(err => {
-      alert("Error adding comment. Sorry about that!")
-    });
+      });
   }
 
   render() {
-    const {
-      data
-    } = this.props;
+    const { profilePicture } = this.state;
+
     var {
       author,
       content,
       likes,
       isLiked,
       createdAt,
-      isLiked,
       tags,
-    } = data;
+    } = this.props.data;
+
     const comments = this.state.comments;
 
     var authorName = `${author.firstName} ${author.lastName}`;
@@ -87,21 +97,27 @@ export default class Post extends React.Component {
 
     return (
       <div className="card">
-        <div>
+        <div className="headerContainer">
           <div className="headerLeft">
-            {/* Profile pic */}
-          </div>
-          <div className="headerContent">
-            <div className="authorContainer">
-              <div>
-                {authorName}
+
+            {profilePicture && <img
+              className="profilePic"
+              src={`data:image/png;base64,${profilePicture}`}
+            />}
+
+            <div className="headerBody">
+              <div className="authorDetails">
+                <div>
+                  {authorName}
+                </div>
+                <div className="channel">
+                  {channel}
+                </div>
               </div>
-              <div className="channel">
-                {channel}
-              </div>
+              <p className="timestamp">{createdAt}</p>
             </div>
-            <p className="timestamp">{createdAt}</p>
           </div>
+
           <div className="headerRight">
             {/* Edit button */}
           </div>
@@ -115,21 +131,23 @@ export default class Post extends React.Component {
             {this.state.showComments ? 'Hide' : 'Show'} {comments.length} comments
           </a>
         </div>
-        {this.state.showComments ? <div className="commentsContainer">
-          <div className="line"/>
-          {comments.map(comment => {
-            return (
-            <div key={comment._id} className="comment">
-              <b>{comment.author.firstName} {comment.author.lastName}</b>
-              <p>{comment.content}</p>
-            </div>)
-          })}
-        </div> : null }
+        {
+          this.state.showComments ? <div className="commentsContainer">
+            <div className="line" />
+            {comments.map(comment => {
+              return (
+                <div key={comment._id} className="comment">
+                  <b>{comment.author.firstName} {comment.author.lastName}</b>
+                  <p>{comment.content}</p>
+                </div>)
+            })}
+          </div> : null
+        }
         <div className="addCommentContainer">
-          <textarea className="textArea" placeholder="Add Comment" rows={1} onChange={this.updateComment.bind(this)}/>
+          <textarea className="textArea" placeholder="Add Comment" rows={1} onChange={this.updateComment.bind(this)} />
           <Button large onClick={this.addComment.bind(this)}>Comment</Button>
         </div>
-      </div>
+      </div >
     )
   }
 }
