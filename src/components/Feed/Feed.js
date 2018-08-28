@@ -64,10 +64,13 @@ export default class Feed extends Component {
    */
   loadData = async (options = {}) => {
     var isReload = options.reload;
+    var isWipe = options.wipe;
 
     var page;
-    if (!isReload) page = this.state.page;
-    else page = 1;
+    if (isWipe || isReload) {
+      page = 1;
+    }
+    else page = this.state.page;
 
     this.setState({
       loading: true

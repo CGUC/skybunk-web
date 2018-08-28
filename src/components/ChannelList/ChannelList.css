@@ -1,22 +1,21 @@
-.ChannelItem {
-    flex: 1;
-    flex-direction: "row";
+.ChannelListContainer {
+    display: flex;
+    flex-direction: column;
     justify-content: flex-start;
-    /* align-self: "stretch"; */
-    align-items: "center";
-    border-bottom-color: '#CCCCCC';
-    border-bottom-width: 1;
-	height: 150;
-	width: 100%;
-    padding-left: 5;
-    z-index: -1;
-    background-color: #fff;
-    direction: ltr;
-}
+    align-items: center;
 
-.BellIcon {
-    width: 50px;
-    cursor: pointer;
+    padding: 20px;
+}
+.ChannelItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    direction: ltr;
+    width: 300px;
+    background-color: #fff;
+    border-bottom: black;
+    border-bottom-width: 2px;
 }
 
 .IconButton {
@@ -26,31 +25,31 @@
     border: none;
 }
 
-.ChannelButton {
-    background-color: #fff;
-    border: none;
-    height: 100%;
+.BellIcon {
+    width: 50px;
+    cursor: pointer;
 }
 
-.ChannelButton:hover  {
+.ChannelDisplay {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 10px;
+}
+
+.ChannelDisplay:hover  {
     background-color: #f85441;
     border-color: #f85441;
     color: #fff;
     cursor: pointer;
 }
 
-.ChannelButton:focus {
+.ChannelDisplay:active {
     background-color: #df4b3a;
     color: #fff;
     border-color: #df4b3a;
-}
-
-.ChannelListButton {
-    flex: 1;
-    flex-direction: 'row';
-    justify-content: 'space-between';
-    align-items: 'center';
-    margin-left: 10;
 }
 
 .ChannelTitle {
