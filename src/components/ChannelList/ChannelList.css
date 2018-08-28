@@ -52,6 +52,11 @@
     border-color: #df4b3a;
 }
 
+.ActiveChannel {
+    background-color: #f85441;
+    border-color: #f85441;
+}
+
 .ChannelTitle {
     /*font-size: 20px;*/
     text-align:'left';

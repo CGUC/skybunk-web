@@ -91,7 +91,14 @@ class Channel extends Component {
     return (
       sortedChannels.map((channel, key) => {
 
+        console.log("Selected channel: ", selectedChannel);
+
         var isSelected = channel._id === selectedChannel._id;
+        var channelClassnames = "ChannelItem";
+        if (isSelected) {
+          channelClassnames += " ActiveChannel";
+          console.log("Channel is selected")
+        }
 
         let icon = require('../../assets/bell-OFF.png');
         let hide = false;
@@ -109,7 +116,7 @@ class Channel extends Component {
         }
 
         return (
-          <div className="ChannelItem">
+          <div className={channelClassnames}>
             <button className="IconButton" onClick={() => { this.updateSubscription(channel._id, subIndex) }}>
               {hide ? <div style={{ width: '50px' }} /> : <img src={icon} className="BellIcon" />}
             </button>
