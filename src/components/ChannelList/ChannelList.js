@@ -91,13 +91,10 @@ class Channel extends Component {
     return (
       sortedChannels.map((channel, key) => {
 
-        console.log("Selected channel: ", selectedChannel);
-
         var isSelected = channel._id === selectedChannel._id;
         var channelClassnames = "ChannelItem";
         if (isSelected) {
           channelClassnames += " ActiveChannel";
-          console.log("Channel is selected")
         }
 
         let icon = require('../../assets/bell-OFF.png');

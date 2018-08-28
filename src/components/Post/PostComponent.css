@@ -48,8 +48,9 @@
   height: 50px;
   border-radius: 25px;
   margin-right: 10px;
+  border-width: 2px;
+  border: 1px solid #fc4970;
 }
-
 .channel {
   background-color: rgb(235, 235, 235);
   border-radius: 5px;
@@ -105,6 +106,20 @@
   padding: 15px;
   padding-bottom: 8px;
   border-radius: 5px;
+}
+
+.commentHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.commentProfilePic {
+  height: 30px;
+  border-radius: 15px;
+  margin-right: 10px;
+  border: 1px solid #fc4970;
 }
 
 .line {

@@ -1,5 +1,7 @@
 import React from 'react';
 import date from 'date-fns';
+import _ from 'lodash';
+
 import Button from '../Shared/Button/Button';
 import api from '../../ApiClient';
 
@@ -12,11 +14,16 @@ export default class Post extends React.Component {
       showComments: false,
       comments: props.data.comments,
       commentContent: null,
-      profilePicture: null
+      profilePicture: null,
+      commentProfilePictures: null
     };
   }
 
   async componentDidMount() {
+    this.fetchProfilePicture();
+  }
+
+  async fetchProfilePicture() {
     await api.get(`/users/${this.props.data.author._id}/profilePicture`, {}).then(pic => {
       this.setState({
         profilePicture: pic,
@@ -26,15 +33,37 @@ export default class Post extends React.Component {
     });
   }
 
+  async fetchCommentProfilePictures() {
+    var comments = this.props.data.comments;
+
+    var pics = await Promise.all(_.map(comments, async comment => {
+      var pic = await api.get(`/users/${comment.author._id}/profilePicture`, {});
+      return { id: comment._id, val: pic };
+    }));
+
+    var commentProfilePictures = _.transform(pics, (result, pic) => {
+      result[pic.id] = pic.val;
+    }, {});
+
+    this.setState({ commentProfilePictures });
+
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.data.comments !== prevProps.data.comments) {
       this.setState({
         comments: this.props.data.comments
       })
     }
+    if (this.props.data.author._id !== prevProps.data.author._id) {
+      this.fetchProfilePicture();
+    }
   }
 
   showComments() {
+    if (!this.state.commentProfilePictures && !this.state.showComments) {
+      this.fetchCommentProfilePictures();
+    }
     this.setState({ showComments: !this.state.showComments })
   }
 
@@ -78,7 +107,7 @@ export default class Post extends React.Component {
   }
 
   render() {
-    const { profilePicture } = this.state;
+    const { profilePicture, commentProfilePictures } = this.state;
 
     var {
       author,
@@ -137,7 +166,13 @@ export default class Post extends React.Component {
             {comments.map(comment => {
               return (
                 <div key={comment._id} className="comment">
-                  <b>{comment.author.firstName} {comment.author.lastName}</b>
+                  <div className="commentHeader">
+                    {commentProfilePictures && commentProfilePictures[comment._id] && <img
+                      className="commentProfilePic"
+                      src={`data:image/png;base64,${commentProfilePictures[comment._id]}`}
+                    />}
+                    <b>{comment.author.firstName} {comment.author.lastName}</b>
+                  </div>
                   <p>{comment.content}</p>
                 </div>)
             })}
