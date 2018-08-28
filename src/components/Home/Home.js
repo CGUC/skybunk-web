@@ -86,6 +86,7 @@ class Home extends Component {
 							user={user}
 							token={token}
 							onClickChannel={this.onClickChannel}
+							selectedChannel={selectedChannel}
 						/>
 					</div>
 

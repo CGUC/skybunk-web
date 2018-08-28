@@ -70,7 +70,9 @@ class Channel extends Component {
   }
 
   getChannelCardJSX(channels) {
+    const { selectedChannel } = this.props;
     const subs = this.state.subscribedChannels;
+
     let sortedChannels = channels.sort((c1, c2) => {
       if (c1._id === 'all') return -1;
       if (c2._id === 'all') return 1;
@@ -89,6 +91,8 @@ class Channel extends Component {
     return (
       sortedChannels.map((channel, key) => {
 
+        var isSelected = channel._id === selectedChannel._id;
+
         let icon = require('../../assets/bell-OFF.png');
         let hide = false;
 
@@ -105,19 +109,21 @@ class Channel extends Component {
         }
 
         return (
-          <tr>
-            <td className="ChannelItem">
-              <button className="IconButton" onClick={() => { this.updateSubscription(channel._id, subIndex) }}>
-                <img src={icon} className="BellIcon" hidden={hide} />
-              </button>
-              <button className="ChannelButton" onClick={() => { this.onClickChannel(channel) }}>
+          <div className="ChannelItem">
+            <button className="IconButton" onClick={() => { this.updateSubscription(channel._id, subIndex) }}>
+              {hide ? <div style={{ width: '50px' }} /> : <img src={icon} className="BellIcon" />}
+            </button>
+            <div className="ChannelDisplay" onClick={() => { this.onClickChannel(channel) }}>
+              {/* <button className="ChannelButton" onClick={() => { this.onClickChannel(channel) }}> */}
                 <h3 className="ChannelTitle">
                   {channel.name}
                 </h3>
-                <img src={require('../../assets/arrowright.png')} className="ArrowIcon" />
-              </button>
-            </td>
-          </tr>
+                <div className="ArrowContainer">
+                  <img src={require('../../assets/arrowright.png')} className="ArrowIcon" />
+                </div>
+              {/* </button> */}
+            </div>
+          </div>
         )
       })
     )
@@ -131,9 +137,9 @@ class Channel extends Component {
     let channelCards = this.getChannelCardJSX(channelList);
 
     return (
-      <table className="ChannelListTable">
+      <div className="ChannelListContainer">
         {channelCards}
-      </table>
+      </div>
     );
   }
 }

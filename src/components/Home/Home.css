@@ -12,13 +12,13 @@
 }
 
 .ChannelList {
-    flex-grow: 1;
     position: fixed;
-    height: 100%;
     background-color: #009999;
     padding: 10px;
+    margin-bottom: 10;
     overflow: auto;
     direction: rtl;
+    height: 90%;
 }
 
 .Channel {
