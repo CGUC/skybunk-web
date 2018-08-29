@@ -11,6 +11,10 @@
     justify-content: flex-start;
 }
 
+.logout {
+    cursor: pointer;
+}
+
 .ChannelList {
     position: fixed;
     margin-bottom: 10;

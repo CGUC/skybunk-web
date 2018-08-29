@@ -110,7 +110,7 @@ class Home extends Component {
 		return (
 			<div className="Home">
 				<Header>
-					<p onClick={this.logout.bind(this)}>Logout</p>
+					<p className="logout" onClick={this.logout.bind(this)}>Logout</p>
 				</Header>
 				{content}
 			</div>
