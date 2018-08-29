@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
+import EditAccount from './components/EditAccount/EditAccount'
 import './App.css';
 
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
 				<Switch>
 					<Route path="/login" component={Login}/>
 					<Route path="/home" component={Home}/>
+					<Route path="/users/:id/edit" component={EditAccount}/>
 				</Switch>
 			</div>
 		);

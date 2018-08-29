@@ -16,5 +16,7 @@
 }
 
 .HeaderRight {
+	display: flex;
+	flex-direction: row;
 	padding-right: 80px;
 }

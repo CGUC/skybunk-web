@@ -66,6 +66,16 @@ class Home extends Component {
 		this.props.history.push('/login');
 	}
 
+	async account() {
+		const currentUser = await api.get(
+		    '/users/loggedInUser', 
+		    { Authorization: `Bearer ${localStorage.getItem('skybunkToken')}`},
+		    {}
+		);
+		if (currentUser._id)
+			this.props.history.push(`/users/${currentUser._id}/edit`);
+	}
+
 	render() {
 
 		const {
@@ -111,6 +121,7 @@ class Home extends Component {
 			<div className="Home">
 				<Header>
 					<p className="logout" onClick={this.logout.bind(this)}>Logout</p>
+					<p className="logout" onClick={this.account.bind(this)}>Account</p>
 				</Header>
 				{content}
 			</div>
