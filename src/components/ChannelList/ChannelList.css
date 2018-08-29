@@ -76,7 +76,7 @@
     display: none;
 }
 
-@media (max-width:768px) {
+@media (max-width:960px) {
     .ChannelTitle {
         font-size: 16px;
     }
