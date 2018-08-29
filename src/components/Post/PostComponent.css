@@ -179,3 +179,9 @@
   width: 100%;
   border: 1px solid #fc4970;
 }
+
+@media (max-width:768px){
+  .card {
+    width: 90%;
+  }
+}
