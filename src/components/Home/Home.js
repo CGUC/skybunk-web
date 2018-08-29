@@ -90,6 +90,9 @@ class Home extends Component {
 						/>
 					</div>
 
+					<div className="spaceForMenu hideMobile">
+					</div>
+
 					<div className="Feed">
 						<Feed
 							channel={selectedChannel}

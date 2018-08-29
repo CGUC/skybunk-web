@@ -33,14 +33,6 @@
     align-items: center;
 }
 
-.ChannelListTable{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
 .mobileMenuBtn {
     display:none;
     background-color: transparent;
@@ -66,9 +58,15 @@
     display: none;
 }
 
-@media (max-width:768px){
+.spaceForMenu {
+    width: 360px;
+    height:90%;
+}
+
+@media (max-width:960px){
     .mobileMenuBtn {
         text-align: center;
+        display: block;
     }
     .ChannelList {
         height: auto;
@@ -76,9 +74,7 @@
         width: 100%;
         position: relative;
     }
-    .mobileMenuBtn {
-        display: block;
-    }
+
     .hideMobile{
         display: none;
     }
