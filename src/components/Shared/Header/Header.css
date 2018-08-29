@@ -8,6 +8,7 @@
 	align-items: center;
 	justify-content: space-between;
 	background: linear-gradient(#71d3d1, #67bcba);
+	color: white;
 }
 
 .HeaderLeft {

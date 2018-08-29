@@ -13,12 +13,13 @@
 
 .ChannelList {
     position: fixed;
-    background-color: #009999;
-    padding: 10px;
     margin-bottom: 10;
     overflow: auto;
     direction: rtl;
-    height: 90%;
+    height: 100%;
+    background-color: white;
+    border-width: 1px;
+    border-color: #EEEEEE;
 }
 
 .Channel {
@@ -27,10 +28,11 @@
 }
 
 .Feed {
-    flex-grow: 6;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-left: 300px;
 }
 
 .mobileMenuBtn {

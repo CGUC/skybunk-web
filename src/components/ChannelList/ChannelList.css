@@ -3,8 +3,6 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-
-    padding: 20px;
 }
 .ChannelItem {
     display: flex;
@@ -39,22 +37,20 @@
     padding-right: 10px;
 }
 
-.ChannelDisplay:hover  {
-    background-color: #f85441;
-    border-color: #f85441;
-    color: #fff;
+.ChannelItem:hover  {
+    background-color: #EEEEEE;
+    border-color: #EEEEEE;
     cursor: pointer;
 }
 
-.ChannelDisplay:active {
-    background-color: #df4b3a;
-    color: #fff;
-    border-color: #df4b3a;
+.ChannelItem:active {
+    background-color: #DDD;
+    border-color: #DDD;
 }
 
 .ActiveChannel {
-    background-color: #f85441;
-    border-color: #f85441;
+    background-color: #EEE;
+    border-color: #EEE;
 }
 
 .ChannelTitle {
