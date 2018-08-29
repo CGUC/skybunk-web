@@ -180,7 +180,7 @@ export default class Feed extends Component {
     })
 
     return (
-      <div className="Feed">
+      <div>
         {enableCreation && <CreatePost
           onAddPost={this.addPost}
           channel={channel}

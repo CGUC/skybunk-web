@@ -3,10 +3,10 @@
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 10px;
-  width: 550px;
+  width: 650px;
   background-color: #FFFFFF;
-  border-radius: 2px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  border: 1px solid #CCC;
 }
 
 .creationCard {
@@ -18,7 +18,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
   margin: 10px;
 }
 
@@ -99,20 +98,22 @@
 }
 
 .creationField {
-  width: 100%;
+  width: 99%;
   overflow: auto;
   resize: none;
   font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 4px;
+  padding: 5px;
 }
 
 .PostButton {
-  float: right;
 }
 
 .ShowComments {
-  text-decoration: underline;
+  text-decoration: unset;
   cursor: pointer;
-  color: blue;
+  color: #fc4970;
 }
 
 .ShowComments:active {
@@ -125,12 +126,19 @@
   margin: 10px;
 }
 
-.comment {
-  background-color: #F4F4F4;
-  margin: 10px;
-  padding: 15px;
+.commentContainer {
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0px 0px 0px;
+  padding: 0px 0px 0px 10px;
   padding-bottom: 8px;
-  border-radius: 5px;
+}
+
+.comment {
+  flex: 1;
+  background-color: #EEEEEE;
+  border-radius: 15px 15px 15px 25px;
+  padding: 10px 0px 0px 10px;
 }
 
 .commentHeader {
@@ -141,24 +149,33 @@
 }
 
 .commentProfilePic {
-  height: 30px;
-  border-radius: 15px;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
   margin-right: 10px;
   border: 1px solid #fc4970;
 }
 
 .line {
   height: 1px;
+  margin-bottom: 15px; 
   background-color:  #CCCCCC;
 }
 
 .textArea {
+  flex: 1;
   padding: 5px;
   width: 80%;
-  box-sizing: border-box;
   resize: none;
   font-size: 15px;
   margin-right: 10px;
   margin-top: 5px;
   margin-bottom: 3px;
+  border-radius: 4px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.postImage {
+  width: 100%;
+  border: 1px solid #fc4970;
 }

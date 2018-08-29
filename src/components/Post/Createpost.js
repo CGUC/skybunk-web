@@ -2,6 +2,7 @@ import React from 'react';
 
 import './PostComponent.css';
 import Button from '../Shared/Button/Button';
+import './CreatePost.css';
 
 export default class CreatePost extends React.Component {
 

@@ -3,7 +3,20 @@
 	height: 20px;
 }
 
+.ButtonLarge:active {
+	height: 30px;
+	font-size: 15px;
+	background-color: #67bcba;
+	color: white;
+	border-width: 0px;
+	border-radius: 2px;
+}
+
 .ButtonLarge {
 	height: 30px;
 	font-size: 15px;
+	background-color: #71d3d1;
+	color: white;
+	border-width: 0px;
+	border-radius: 2px;
 }

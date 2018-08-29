@@ -15,12 +15,14 @@ export default class Post extends React.Component {
       comments: props.data.comments,
       commentContent: null,
       profilePicture: null,
+      image: null,
       commentProfilePictures: null,
     };
   }
 
   async componentDidMount() {
     this.fetchProfilePicture();
+    this.fetchImage();
   }
 
   async fetchProfilePicture() {
@@ -49,6 +51,18 @@ export default class Post extends React.Component {
 
   }
 
+  async fetchImage() {
+    if (this.props.data.image) {
+      await api.get(`/posts/${this.props.data._id}/image`, {}).then(pic => {
+        this.setState({
+          image: pic
+        });
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  }
+
   componentDidUpdate(prevProps) {
     const {
       data,
@@ -61,6 +75,7 @@ export default class Post extends React.Component {
     }
     if (data.author._id !== prevProps.data.author._id) {
       this.fetchProfilePicture();
+      this.fetchImage();
     }
   }
 
@@ -140,7 +155,7 @@ export default class Post extends React.Component {
   }
 
   render() {
-    const { profilePicture, commentProfilePictures } = this.state;
+    const { profilePicture, commentProfilePictures, image } = this.state;
 
     var {
       author,
@@ -171,11 +186,11 @@ export default class Post extends React.Component {
             <div className="headerBody">
               <div className="authorDetails">
                 <div>
-                  {authorName}
+                  {authorName} ➤ {channel}
                 </div>
-                <div className="channel">
+                {/*<div className="channel">
                   {channel}
-                </div>
+                </div>*/}
               </div>
               <p className="timestamp">{createdAt}</p>
             </div>
@@ -187,6 +202,7 @@ export default class Post extends React.Component {
         </div>
         <div className="content">
           <p>{content}</p>
+          {image && <img className="postImage" src={`data:image/png;base64,${image}`}/>}
         </div>
         <div className="footers">
           <div className="likesContainer">
@@ -205,15 +221,17 @@ export default class Post extends React.Component {
             <div className="line" />
             {comments.map(comment => {
               return (
-                <div key={comment._id} className="comment">
-                  <div className="commentHeader">
-                    {commentProfilePictures && commentProfilePictures[comment._id] && <img
-                      className="commentProfilePic"
-                      src={`data:image/png;base64,${commentProfilePictures[comment._id]}`}
-                    />}
-                    <b>{comment.author.firstName} {comment.author.lastName}</b>
+                <div className="commentContainer">
+                  {commentProfilePictures && commentProfilePictures[comment._id] && <img
+                  className="commentProfilePic"
+                  src={`data:image/png;base64,${commentProfilePictures[comment._id]}`}
+                  />}
+                  <div key={comment._id} className="comment">
+                    <div className="commentHeader">
+                      <b>{comment.author.firstName} {comment.author.lastName}</b>
+                    </div>
+                    <p>{comment.content}</p>
                   </div>
-                  <p>{comment.content}</p>
                 </div>)
             })}
           </div> : null

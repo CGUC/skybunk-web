@@ -61,6 +61,11 @@ class Home extends Component {
 		};
 	}
 
+	logout() {
+		localStorage.removeItem('skybunkToken');
+		this.props.history.push('/login');
+	}
+
 	render() {
 
 		const {
@@ -101,7 +106,9 @@ class Home extends Component {
 
 		return (
 			<div className="Home">
-				<Header />
+				<Header>
+					<p onClick={this.logout.bind(this)}>Logout</p>
+				</Header>
 				{content}
 			</div>
 		);
