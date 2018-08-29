@@ -60,11 +60,6 @@
     display: none;
 }
 
-.spaceForMenu {
-    width: 360px;
-    height:90%;
-}
-
 @media (max-width:960px){
     .mobileMenuBtn {
         text-align: center;
