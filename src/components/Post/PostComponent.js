@@ -60,6 +60,10 @@ export default class Post extends React.Component {
       }).catch(error => {
         console.log(error);
       });
+    } else {
+      this.setState({
+        image: null
+      });
     }
   }
 
