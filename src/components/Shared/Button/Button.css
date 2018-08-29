@@ -1,6 +1,7 @@
 .Button {
 	margin: 5px;
 	height: 20px;
+	cursor: pointer;
 }
 
 .ButtonLarge:active {
