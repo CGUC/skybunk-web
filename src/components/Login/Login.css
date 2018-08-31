@@ -56,3 +56,19 @@
     box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     text-align: center;
 }
+
+.mobileLogin {
+	padding-top: 90px;
+	display: none;
+}
+
+@media (max-width: 960px) {
+	.mobileLogin {
+		display: flex;
+		justify-content: center;
+	}
+
+	.Register {
+		padding-top: 20px;
+	}
+}
