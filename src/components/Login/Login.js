@@ -102,23 +102,46 @@ class Login extends Component {
         }
     }
 
+    _pressLoginBtn = (event) => {
+        if(event.charCode === 13){
+          document.getElementsByClassName("LoginBtn")[0].click();
+        }
+      }
+      componentWillMount() {
+        document.addEventListener("keypress", this._pressLoginBtn.bind(this));
+      }
+      componentWillUnmount() {
+        document.removeEventListener("keypress", this._pressLoginBtn.bind(this));
+      }
+
     render() {
         const { loginError, resgisterError } = this.state;
         return (
             <div className="Main">
                 <Header>
-                    <div className="Login">
+                    <div className="Login hideMobile">
                         <div className="LoginTitle">Login</div>
                         <div className="LoginForms">
-                            <TextInput name="username" placeholder="Username" onChange={this.updateFormStateFunc('username')}/>
-                            <TextInput type="password" name="password" placeholder="Password" onChange={this.updateFormStateFunc('password')}/>
-                            <Button onClick={this.submitLogin.bind(this)}>
+                            <TextInput name="username" placeholder="Username" onChange={this.updateFormStateFunc('username')} onKeyPress={this.pressLoginBtn}/>
+                            <TextInput type="password" name="password" placeholder="Password" onChange={this.updateFormStateFunc('password')} onKeyPress={this.pressLoginBtn}/>
+                            <button onClick={this.submitLogin.bind(this)} className="Button LoginBtn">
                                 Login
-                            </Button>
+                            </button>
                         </div>
                         {loginError ? <div className="LoginError">*{loginError}</div> : null}
                     </div>
                 </Header>
+                <div className="mobileLogin">
+                    <div className="Card">
+                        <h2>Login</h2>
+                        <TextInput name="username" placeholder="Username" onChange={this.updateFormStateFunc('username')} onKeyPress={this.pressLoginBtn}/>
+                        <TextInput type="password" name="password" placeholder="Password" onChange={this.updateFormStateFunc('password')} onKeyPress={this.pressLoginBtn}/>
+                        <button onClick={this.submitLogin.bind(this)} className="Button LoginBtn ButtonLarge">
+                            Login
+                        </button>
+                        {loginError ? <div className="LoginError">*{loginError}</div> : null}
+                    </div>
+                </div>
                 <div className="Register">
                     <div className="Card">
                         <h2>Register</h2>
