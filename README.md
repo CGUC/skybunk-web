@@ -21,6 +21,8 @@ Skybunk on the web for students of Conrad Grebel University College
 5) Help out reviewers as they comb through changes and give their constructive feedback and suggestions to make this the best feature ever
 6) When your changes get merged in, boast that you're a software ninja that helped code a social connectivity platform used by hundreds of people :punch:
 
+<i>For a more in-depth walkthrough of the development process, see 'A Contributor's Guide' in the wiki!</i>
+
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
