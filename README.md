@@ -5,7 +5,7 @@ Skybunk on the web for students of Conrad Grebel University College
 ## Setting up Dev environment
 1) Clone the repo - `git clone https://github.com/CGUC/skybunk-web.git`
 2) In the cloned folder (`cd skybunk-web`), run `npm install`
-3) To start the local server, run `npm run-script dev`, and in your browser go to `localhost:3000'`. And behold, Skybunk Web in all its glory!
+3) To start the local server, run `npm run-script dev`, and in your browser go to `localhost:3000`. And behold, Skybunk Web in all its glory!
 
 ## Making / Improving / Playing with features
 1) Update your local version of the code - `git fetch origin` and `git pull`
