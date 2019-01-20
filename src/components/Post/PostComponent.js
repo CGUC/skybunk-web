@@ -17,6 +17,7 @@ export default class Post extends React.Component {
       profilePicture: null,
       image: null,
       commentProfilePictures: null,
+      isLiked: props.data.usersLiked.map(usr => usr._id).includes(props.user._id)
     };
   }
 
@@ -130,36 +131,42 @@ export default class Post extends React.Component {
   }
 
   toggleLike = () => {
-    const { data, update, user } = this.props;
+    const { isLiked } = this.state;
+    const { data, user } = this.props;
     const token = localStorage.getItem('skybunkToken');
 
     var updatedContent = data;
 
-    if (this.isLiked()) {
+    if (isLiked) {
       updatedContent.likes--;
-      updatedContent.usersLiked = _.filter(updatedContent.usersLiked, u => u !== user._id);
+      updatedContent.usersLiked = _.filter(updatedContent.usersLiked, u => u._id !== user._id);
     } else {
       updatedContent.likes++;
-      updatedContent.usersLiked.push(user._id);
+      updatedContent.usersLiked.push({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        _id: user._id
+      });
     }
     if (updatedContent.likes < 0) updatedContent.likes = 0;
 
+    // Update state locally for the component
+    this.setState({ isLiked: !isLiked })
+
+    // Send updated data to the API
     api.put(`/posts/${data._id}`, { 'Authorization': 'Bearer ' + token }, updatedContent)
-      .then(() => {
-        update && update();
-      })
       .catch(err => {
         console.warn(err)
       });
   }
 
-  isLiked() {
-    const { data, user } = this.props;
-    return data.usersLiked.includes(user._id);
-  }
-
   render() {
-    const { profilePicture, commentProfilePictures, image } = this.state;
+    const {
+      profilePicture,
+      commentProfilePictures,
+      image,
+      isLiked
+    } = this.state;
 
     var {
       author,
@@ -169,7 +176,7 @@ export default class Post extends React.Component {
       tags,
     } = this.props.data;
 
-    var likeIcon = this.isLiked() ? require('../../assets/liked-cookie.png') : require('../../assets/cookie-icon.png')
+    var likeIcon = isLiked ? require('../../assets/liked-cookie.png') : require('../../assets/cookie-icon.png')
 
     const comments = this.state.comments;
 

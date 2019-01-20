@@ -168,7 +168,7 @@ export default class Feed extends Component {
       return (<div>Loading ...</div>)
     }
 
-    var posts = posts.map((post, i) => {
+    posts = posts.map((post, i) => {
       return (
         <Post
           key={`post-${i}`}
