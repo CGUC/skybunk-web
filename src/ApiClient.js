@@ -1,14 +1,46 @@
-import config from './config';
+var config = require('./config');
 
+var token;
 export default class ApiClient {
-	static get(endpoint, headers) {
+	static formatHeaders(options){
+		const contentType = options.contentType ? options.contentType : 'application/json'
+		if(options.authorized){
+			return  {
+				'Accept': 'application/json',
+				'Content-Type': contentType,
+				'Authorization': 'Bearer ' + this.getAuthToken(),
+				...options.headers
+			}
+		}
+		else {
+			return  {
+				'Accept': 'application/json',
+				'Content-Type': contentType,
+				...options.headers
+			}
+		}
+	}
+	static getAuthToken(){
+		if(token !== undefined) return token;
+		token = localStorage.getItem('skybunkToken');
+		return token;
+	}
+
+	static setAuthToken(_token){
+		token = _token;
+		localStorage.setItem('skybunkToken', token);
+	}
+
+	static clearAuthToken(){
+		localStorage.removeItem('skybunkToken');
+		token = undefined;
+	}
+
+	static get(endpoint, options={}) {
+
 		return fetch(`${config.API_ADDRESS}${endpoint}`, {
 				method: 'GET',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-					...headers,
-				},
+				headers: this.formatHeaders(options),
 			})
 			.then(response => response.json())
 			.then(responseJSON => {
@@ -20,14 +52,11 @@ export default class ApiClient {
 			});
 	}
 
-	static post(endpoint, headers, body) {
+	static post(endpoint, body, options={}) {
+
 		return fetch(`${config.API_ADDRESS}${endpoint}`, {
 			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				...headers,
-			},
+			headers: this.formatHeaders(options),
 			body: JSON.stringify(body),
 		})
 		.then(response => response.json())
@@ -40,14 +69,20 @@ export default class ApiClient {
 		});
 	};
 
-	static put(endpoint, headers, body) {
+	static put(endpoint, body, options={}) {
+		/**
+		 * HACKFIX (Neil): Sending too many notification objects with requests has
+		 * returned 413s and crashed the app. Here we're limiting the saved notifications to 30.
+		 * This logic doesn't belong client-side, but putting it here should neutralize the bug for now.
+		 */
+		if (body.notifications) {
+			console.log("Trimming notifications...");
+			body.notifications = body.notifications.slice(0, 30);
+		} else console.log("No notifications being sent");
+
 		return fetch(`${config.API_ADDRESS}${endpoint}`, {
 			method: 'PUT',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				...headers,
-			},
+			headers: this.formatHeaders(options),
 			body: JSON.stringify(body),
 		})
 		.then(response => {
@@ -62,7 +97,9 @@ export default class ApiClient {
 		});
 	}
 
-	static uploadPhoto(endpoint, headers, uri, name, method = 'PUT') {
+	static uploadPhoto(endpoint, uri, name, options={}) {
+		const method = options.method ? options.method : 'PUT'
+
 		let uriParts = uri.split('.');
 		let fileType = uriParts[uriParts.length - 1];
 
@@ -75,10 +112,7 @@ export default class ApiClient {
 
 		return fetch(`${config.API_ADDRESS}${endpoint}`, {
 			method: method,
-			headers: {
-				Accept: 'application/json',
-				...headers,
-			},
+			headers: this.formatHeaders({...options, contentType: 'multipart/form-data'}),
 			body: formData,
 		})
 		.then(response => {
@@ -91,19 +125,16 @@ export default class ApiClient {
 		});
 	}
 
-	static delete(endpoint, headers) {
+	static delete(endpoint, options={}) {
+
 		return fetch(`${config.API_ADDRESS}${endpoint}`, {
 			method: 'DELETE',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				...headers,
-			}
+			headers:  this.formatHeaders(options)
 		})
 		.catch(err => {
 			err = err.replace(/</g, '').replace(/>/g, '');
 			console.error(err);
-		});;
+		});
 	}
 
 	static makeCancelable(promise) {
@@ -114,7 +145,7 @@ export default class ApiClient {
 	      val => hasCanceled_ ? reject({isCanceled: true}) : resolve(val),
 	      error => hasCanceled_ ? reject({isCanceled: true}) : reject(error)
 	    );
-    });
+	  });
 
 	  return {
 	    promise: wrappedPromise,
@@ -122,5 +153,5 @@ export default class ApiClient {
 	      hasCanceled_ = true;
 	    },
 	  };
-  };
+	};
 }

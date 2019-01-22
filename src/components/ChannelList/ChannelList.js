@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import api from '../../ApiClient';
+import ApiClient from '../../ApiClient';
 import './ChannelList.css';
 
 const DEFAULT_CHANNELS = [
@@ -27,7 +27,7 @@ class Channel extends Component {
 
     this.setState({ loading: true });
 
-    api.get('/channels')
+    ApiClient.get('/channels', {authorized: true})
       .then(response => {
         this.setState({ channels: response, loading: false });
       })
@@ -57,15 +57,14 @@ class Channel extends Component {
 
   updateUserRequest = () => {
     let {
-      user,
-      token
+      user
     } = this.props;
 
     user.subscribedChannels = this.state.subscribedChannels;
-    api.put(
+    ApiClient.put(
       `/users/${user._id}`,
-      { 'Authorization': 'Bearer ' + token },
-      user
+      user,
+      { authorized: true}
     ).catch(err => console.error(err));
   }
 

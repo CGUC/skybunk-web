@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import Post from '../Post/PostComponent';
 import CreatePost from '../Post/Createpost';
-import api from '../../ApiClient';
+import ApiClient from '../../ApiClient';
 
 import './Feed.css';
 
@@ -75,7 +75,7 @@ export default class Feed extends Component {
     this.setState({
       loading: true
     });
-    await api.get(this.getUri(), { page })
+    await ApiClient.get(this.getUri(), { headers: page, authorized: true })
       .then(response => {
         if (isReload) return this.updateRecent(response);
         var posts = options.wipe ? response : this.state.posts.concat(response);
@@ -129,7 +129,6 @@ export default class Feed extends Component {
   }
 
   addPost = (data) => {
-    const token = localStorage.getItem('skybunkToken');
     const { channel, user } = this.props;
 
     if (!channel.tags) return alert("Cannot add post to this channel");
@@ -140,7 +139,7 @@ export default class Feed extends Component {
       content: data.content,
     }
 
-    api.post(`/posts/`, { 'Authorization': 'Bearer ' + token }, postContent)
+    ApiClient.post(`/posts/`, postContent, { authorized: true })
       .then(() => {
         this.loadData({ reload: true });
       })
