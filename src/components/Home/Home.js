@@ -4,15 +4,14 @@ import { withRouter } from 'react-router-dom';
 import Header from '../Shared/Header/Header';
 import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
-import api from '../../ApiClient';
+import ApiClient from '../../ApiClient';
 import './Home.css';
 
 class Home extends Component {
 
 	state = {
 		loading: true,
-		selectedChannel: { _id: 'all', name: 'All Feed' },
-		token: localStorage.getItem('skybunkToken')
+		selectedChannel: { _id: 'all', name: 'All Feed' }
 	}
 
 	async componentDidMount() {
@@ -20,12 +19,11 @@ class Home extends Component {
 	}
 
 	async getUser() {
-		const token = this.state.token;
 
 		this.setState({ loading: true });
 
 		try {
-			var response = await api.get('/users/loggedInUser', { 'Authorization': 'Bearer ' + token });
+			var response = await ApiClient.get('/users/loggedInUser', { authorized: true });
 			this.setState({ user: response, loading: false });
 		} catch (err) {
 			console.log(err);
@@ -67,10 +65,9 @@ class Home extends Component {
 	}
 
 	async account() {
-		const currentUser = await api.get(
-		    '/users/loggedInUser', 
-		    { Authorization: `Bearer ${localStorage.getItem('skybunkToken')}`},
-		    {}
+		const currentUser = await ApiClient.get(
+		    '/users/loggedInUser',
+		    { authorized: true }
 		);
 		if (currentUser._id)
 			this.props.history.push(`/users/${currentUser._id}/edit`);
@@ -82,8 +79,7 @@ class Home extends Component {
 			loading,
 			channels,
 			user,
-			selectedChannel,
-			token
+			selectedChannel
 		} = this.state;
 
 		let content = loading ? (
@@ -99,7 +95,6 @@ class Home extends Component {
 						<ChannelList
 							channels={channels}
 							user={user}
-							token={token}
 							onClickChannel={this.onClickChannel}
 							selectedChannel={selectedChannel}
 						/>

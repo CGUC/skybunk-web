@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Linkify from 'react-linkify';
 
 import Button from '../Shared/Button/Button';
-import api from '../../ApiClient';
+import ApiClient from '../../ApiClient';
 
 import './PostComponent.css';
 
@@ -28,7 +28,7 @@ export default class Post extends React.Component {
   }
 
   async fetchProfilePicture() {
-    await api.get(`/users/${this.props.data.author._id}/profilePicture`, {}).then(pic => {
+    await ApiClient.get(`/users/${this.props.data.author._id}/profilePicture`, { authorized: true }).then(pic => {
       this.setState({
         profilePicture: pic,
       });
@@ -41,7 +41,7 @@ export default class Post extends React.Component {
     var comments = this.props.data.comments;
 
     var pics = await Promise.all(_.map(comments, async comment => {
-      var pic = await api.get(`/users/${comment.author._id}/profilePicture`, {});
+      var pic = await ApiClient.get(`/users/${comment.author._id}/profilePicture`, { authorized: true });
       return { id: comment._id, val: pic };
     }));
 
@@ -55,7 +55,7 @@ export default class Post extends React.Component {
 
   async fetchImage() {
     if (this.props.data.image) {
-      await api.get(`/posts/${this.props.data._id}/image`, {}).then(pic => {
+      await ApiClient.get(`/posts/${this.props.data._id}/image`, { authorized: true }).then(pic => {
         this.setState({
           image: pic
         });
@@ -107,15 +107,13 @@ export default class Post extends React.Component {
 
     commentRef.value = '';
 
-    const token = localStorage.getItem('skybunkToken');
-
-    api.get('/users/loggedInUser', { 'Authorization': 'Bearer ' + token }, {})
+    ApiClient.get('/users/loggedInUser', { authorized: true })
       .then(user => {
         const content = {
           author: user._id,
           content: commentContent,
         }
-        api.post(`/posts/${data._id}/comment`, { 'Authorization': 'Bearer ' + token }, content)
+        ApiClient.post(`/posts/${data._id}/comment`, content, { authorized: true })
           .then(comments => {
             comments[comments.length - 1].author = { firstName: user.firstName, lastName: user.lastName }
             this.setState({
@@ -134,7 +132,6 @@ export default class Post extends React.Component {
   toggleLike = () => {
     const { isLiked } = this.state;
     const { data, user } = this.props;
-    const token = localStorage.getItem('skybunkToken');
 
     var updatedContent = data;
 
@@ -155,7 +152,7 @@ export default class Post extends React.Component {
     this.setState({ isLiked: !isLiked })
 
     // Send updated data to the API
-    api.put(`/posts/${data._id}`, { 'Authorization': 'Bearer ' + token }, updatedContent)
+    ApiClient.put(`/posts/${data._id}`, updatedContent, {authorized: true})
       .catch(err => {
         console.warn(err)
       });
