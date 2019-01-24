@@ -75,7 +75,7 @@ export default class Feed extends Component {
     this.setState({
       loading: true
     });
-    await ApiClient.get(this.getUri(), { headers: page, authorized: true })
+    await ApiClient.get(this.getUri(), { headers: {page: page}, authorized: true })
       .then(response => {
         if (isReload) return this.updateRecent(response);
         var posts = options.wipe ? response : this.state.posts.concat(response);
