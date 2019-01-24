@@ -1,6 +1,7 @@
 import React from 'react';
 import date from 'date-fns';
 import _ from 'lodash';
+import Linkify from 'react-linkify';
 
 import Button from '../Shared/Button/Button';
 import api from '../../ApiClient';
@@ -212,7 +213,7 @@ export default class Post extends React.Component {
           </div>
         </div>
         <div className="content">
-          <p>{content}</p>
+          <Linkify><p style={{cursor: 'default'}}>{content}</p></Linkify>
           {image && <img className="postImage" src={`data:image/png;base64,${image}`}/>}
         </div>
         <div className="footers">
