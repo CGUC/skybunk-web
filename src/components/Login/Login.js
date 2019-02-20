@@ -101,7 +101,12 @@ class Login extends Component {
 
     _pressLoginBtn = (event) => {
         if(event.charCode === 13){
-          document.getElementsByClassName("LoginBtn")[0].click();
+          try{
+            document.getElementsByClassName("LoginBtn")[0].click();
+          }
+          catch{
+
+          }
         }
       }
       componentWillMount() {

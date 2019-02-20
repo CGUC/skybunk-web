@@ -120,6 +120,11 @@
   color: purple;
 }
 
+.NoComments {
+  text-decoration: unset;
+  color: #fc4970;
+}
+
 .addCommentContainer {
   display: flex;
   flex-direction: row;

@@ -220,10 +220,11 @@ export default class Post extends React.Component {
             </button>
             {`${likes} ${likes === 1 ? 'like' : 'likes'}`}
           </div>
-          <a className="ShowComments" onClick={this.showComments.bind(this)}>
-            {this.state.showComments ? 'Hide' : 'Show'} {comments.length} comments
-          </a>
-
+          {comments.length === 0 ?
+             (<span className="NoComments">No comments</span>) : 
+             (<a className="ShowComments" onClick={this.showComments.bind(this)}>
+               {this.state.showComments ? 'Hide' : 'Show'} {comments.length} {comments.length === 1 ? 'comment' : 'comments'}
+             </a>)}
         </div>
         {
           this.state.showComments ? <div className="commentsContainer">
