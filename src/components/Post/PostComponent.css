@@ -59,6 +59,7 @@
 
 .content {
   margin: 10px;
+  word-wrap: break-word;
 }
 
 .timestamp {
