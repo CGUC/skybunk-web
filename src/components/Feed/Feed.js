@@ -138,6 +138,7 @@ export default class Feed extends Component {
       author: user._id,
       tags: channel.tags,
       content: data.content,
+      image: data.image,
     }
 
     api.post(`/posts/`, { 'Authorization': 'Bearer ' + token }, postContent)

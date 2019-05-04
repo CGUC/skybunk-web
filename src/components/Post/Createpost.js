@@ -5,6 +5,7 @@ import Button from '../Shared/Button/Button';
 import './CreatePost.css';
 import CatIcon from '../../assets/catIcon.png';
 import ImageUploader from 'react-images-upload';
+import MaterialIcon from 'material-icons-react'
 
 export default class CreatePost extends React.Component {
   constructor(props) {
@@ -28,21 +29,28 @@ export default class CreatePost extends React.Component {
     }
     else{
       this.setState({
-          image: picture,
+          image: picture[0],
       });
     }
   }
 
   getImageIcon = () => {
+    if (this.state.image != null) {
+      console.log(this.state.image.name);
+      return URL.createObjectURL(this.state.image);
+    }
     return CatIcon;
   }
 
   showUploadInterface = () => {
     this.setState({uploadInterface: !this.state.uploadInterface});
+    if(this.state.image) {
+      this.setState({image: null});
+    }
   }
 
   addPost = () => {
-    let { postContent, ref } = this.state;
+    let { postContent, image, ref } = this.state;
     const { onAddPost } = this.props;
 
     if (!postContent) return;
@@ -50,8 +58,8 @@ export default class CreatePost extends React.Component {
     ref.value = '';
 
     if (onAddPost) onAddPost({
-      content: postContent
-      // TODO: Add image support
+      content: postContent,
+      image: image
     });
   }
 
@@ -64,24 +72,41 @@ export default class CreatePost extends React.Component {
           {`Post to ${channel.name}`}
         </div> */}
         <div className="postAddons">
+          <div style={{cursor: 'pointer'}}>
+            <MaterialIcon
+              icon="image"
+              color='#000000'
+              size={30}
+              onClick={this.showUploadInterface}
+            />
+          </div>
           {this.state.uploadInterface &&
             <ImageUploader
-              withIcon={true}
-              buttonText='Choose images'
-              buttonStyles={{display: this.state.image ? 'none' : 'inline'}}
-              onChange={this.onDrop}
-              singleImage={true}
               withPreview
+              withIcon={false}
+              withLabel={false}
+              singleImage={true}
+              buttonText='Choose an image'
+              buttonStyles={{
+                display: this.state.image ? 'none' : 'inline',
+                height: '30px',
+                fontSize: '15px',
+                backgroundColor: '#71d3d1',
+                color: 'white',
+                borderWidth: '0px',
+                borderRadius: '2px',
+              }}
+              fileContainerStyle={{
+                boxShadow: 'none',
+                webkitBoxShadow: 'none',
+                padding: '0',
+                transition: 'none',
+              }}              
+              onChange={this.onDrop}
               imgExtension={['.jpg', '.gif', '.png']}
               maxFileSize={5242880}
             />
           }
-          <img
-            className="addPhoto"
-            style={{maxHeight: '40px'}}
-            src={imageIcon}
-            onClick={this.showUploadInterface}
-          />
         </div>
         <div className="content">
           <textarea
