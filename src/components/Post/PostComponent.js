@@ -152,7 +152,7 @@ export default class Post extends React.Component {
     this.setState({ isLiked: !isLiked })
 
     // Send updated data to the API
-    ApiClient.put(`/posts/${data._id}`, updatedContent, {authorized: true})
+    ApiClient.post(`/posts/${data._id}/like`, {'addLike': !isLiked}, {authorized: true})
       .catch(err => {
         console.warn(err)
       });
