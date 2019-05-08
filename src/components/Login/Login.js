@@ -3,7 +3,7 @@ import TextInput from '../Shared/TextInput/TextInput';
 import Button from '../Shared/Button/Button';
 import Header from '../Shared/Header/Header';
 import { withRouter } from 'react-router-dom';
-import api from '../../ApiClient';
+import ApiClient from '../../ApiClient';
 import './Login.css';
 
 class Login extends Component {
@@ -35,9 +35,8 @@ class Login extends Component {
     async submitLogin() {
         this.setState({loading: true});
 
-        const response = await api.post(
+        const response = await ApiClient.post(
             '/users/login',
-            {},
             {
                 username: this.state.username,
                 password: this.state.password
@@ -52,7 +51,7 @@ class Login extends Component {
             });
         }
         else {
-            localStorage.setItem('skybunkToken', response.token);
+            ApiClient.setAuthToken(response.token);
             this.props.history.push('/home');
         }
     }
@@ -60,9 +59,8 @@ class Login extends Component {
     async submitRegister() {
         this.setState({loading: true});
 
-        const response = await api.post(
+        const response = await ApiClient.post(
             '/users',
-            {},
             {
                 username: this.state.newUsername,
                 password: this.state.newPassword,
@@ -80,9 +78,8 @@ class Login extends Component {
             });
         }
         else {
-            const response = await api.post(
+            const response = await ApiClient.post(
                 '/users/login',
-                {},
                 {
                     username: this.state.newUsername,
                     password: this.state.newPassword
@@ -96,7 +93,7 @@ class Login extends Component {
                 });
             }
             else {
-                localStorage.setItem('skybunkToken', response.token);
+                ApiClient.setAuthToken(response.token);
                 this.props.history.push('/home');
             }
         }
@@ -104,7 +101,12 @@ class Login extends Component {
 
     _pressLoginBtn = (event) => {
         if(event.charCode === 13){
-          document.getElementsByClassName("LoginBtn")[0].click();
+          try{
+            document.getElementsByClassName("LoginBtn")[0].click();
+          }
+          catch{
+
+          }
         }
       }
       componentWillMount() {

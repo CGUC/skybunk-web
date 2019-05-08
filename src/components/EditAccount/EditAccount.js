@@ -3,7 +3,7 @@ import TextInput from '../Shared/TextInput/TextInput';
 import Button from '../Shared/Button/Button';
 import Header from '../Shared/Header/Header';
 import { withRouter } from 'react-router-dom';
-import api from '../../ApiClient';
+import ApiClient from '../../ApiClient';
 import '../Login/Login.css';
 import './EditAccount.css';
 
@@ -41,22 +41,19 @@ class EditAccount extends Component {
             return;
         }
 
-        const currentUser = await api.get(
+        const currentUser = await ApiClient.get(
             '/users/loggedInUser', 
-            { Authorization: `Bearer ${localStorage.getItem('skybunkToken')}`},
-            {}
+            { authorized: true }
         );
 
         if (currentUser._id !== this.props.match.params.id) {
             this.setState({error: 'Not authorized'});
             return;
         }
-        const response = await api.post(
+        const response = await ApiClient.post(
             `/users/${this.props.match.params.id}/password`,
-            { Authorization: `Bearer ${localStorage.getItem('skybunkToken')}`},
-            {
-                password: this.state.newPassword
-            }
+            {password: this.state.newPassword},
+            { authorized: true }
         );
 
         if (response.message) {

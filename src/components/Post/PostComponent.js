@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Linkify from 'react-linkify';
 
 import Button from '../Shared/Button/Button';
-import api from '../../ApiClient';
+import ApiClient from '../../ApiClient';
 
 import './PostComponent.css';
 
@@ -18,6 +18,7 @@ export default class Post extends React.Component {
       profilePicture: null,
       image: null,
       commentProfilePictures: null,
+      isLiked: props.data.usersLiked.map(usr => usr._id).includes(props.user._id)
     };
   }
 
@@ -27,7 +28,7 @@ export default class Post extends React.Component {
   }
 
   async fetchProfilePicture() {
-    await api.get(`/users/${this.props.data.author._id}/profilePicture`, {}).then(pic => {
+    await ApiClient.get(`/users/${this.props.data.author._id}/profilePicture`, { authorized: true }).then(pic => {
       this.setState({
         profilePicture: pic,
       });
@@ -40,7 +41,7 @@ export default class Post extends React.Component {
     var comments = this.props.data.comments;
 
     var pics = await Promise.all(_.map(comments, async comment => {
-      var pic = await api.get(`/users/${comment.author._id}/profilePicture`, {});
+      var pic = await ApiClient.get(`/users/${comment.author._id}/profilePicture`, { authorized: true });
       return { id: comment._id, val: pic };
     }));
 
@@ -54,7 +55,7 @@ export default class Post extends React.Component {
 
   async fetchImage() {
     if (this.props.data.image) {
-      await api.get(`/posts/${this.props.data._id}/image`, {}).then(pic => {
+      await ApiClient.get(`/posts/${this.props.data._id}/image`, { authorized: true }).then(pic => {
         this.setState({
           image: pic
         });
@@ -106,15 +107,13 @@ export default class Post extends React.Component {
 
     commentRef.value = '';
 
-    const token = localStorage.getItem('skybunkToken');
-
-    api.get('/users/loggedInUser', { 'Authorization': 'Bearer ' + token }, {})
+    ApiClient.get('/users/loggedInUser', { authorized: true })
       .then(user => {
         const content = {
           author: user._id,
           content: commentContent,
         }
-        api.post(`/posts/${data._id}/comment`, { 'Authorization': 'Bearer ' + token }, content)
+        ApiClient.post(`/posts/${data._id}/comment`, content, { authorized: true })
           .then(comments => {
             comments[comments.length - 1].author = { firstName: user.firstName, lastName: user.lastName }
             this.setState({
@@ -131,36 +130,41 @@ export default class Post extends React.Component {
   }
 
   toggleLike = () => {
-    const { data, update, user } = this.props;
-    const token = localStorage.getItem('skybunkToken');
+    const { isLiked } = this.state;
+    const { data, user } = this.props;
 
     var updatedContent = data;
 
-    if (this.isLiked()) {
+    if (isLiked) {
       updatedContent.likes--;
-      updatedContent.usersLiked = _.filter(updatedContent.usersLiked, u => u !== user._id);
+      updatedContent.usersLiked = _.filter(updatedContent.usersLiked, u => u._id !== user._id);
     } else {
       updatedContent.likes++;
-      updatedContent.usersLiked.push(user._id);
+      updatedContent.usersLiked.push({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        _id: user._id
+      });
     }
     if (updatedContent.likes < 0) updatedContent.likes = 0;
 
-    api.put(`/posts/${data._id}`, { 'Authorization': 'Bearer ' + token }, updatedContent)
-      .then(() => {
-        update && update();
-      })
+    // Update state locally for the component
+    this.setState({ isLiked: !isLiked })
+
+    // Send updated data to the API
+    ApiClient.post(`/posts/${data._id}/like`, {'addLike': !isLiked}, {authorized: true})
       .catch(err => {
         console.warn(err)
       });
   }
 
-  isLiked() {
-    const { data, user } = this.props;
-    return data.usersLiked.includes(user._id);
-  }
-
   render() {
-    const { profilePicture, commentProfilePictures, image } = this.state;
+    const {
+      profilePicture,
+      commentProfilePictures,
+      image,
+      isLiked
+    } = this.state;
 
     var {
       author,
@@ -170,7 +174,7 @@ export default class Post extends React.Component {
       tags,
     } = this.props.data;
 
-    var likeIcon = this.isLiked() ? require('../../assets/liked-cookie.png') : require('../../assets/cookie-icon.png')
+    var likeIcon = isLiked ? require('../../assets/liked-cookie.png') : require('../../assets/cookie-icon.png')
 
     const comments = this.state.comments;
 
@@ -216,10 +220,11 @@ export default class Post extends React.Component {
             </button>
             {`${likes} ${likes === 1 ? 'like' : 'likes'}`}
           </div>
-          <a className="ShowComments" onClick={this.showComments.bind(this)}>
-            {this.state.showComments ? 'Hide' : 'Show'} {comments.length} comments
-          </a>
-
+          {comments.length === 0 ?
+             (<span className="NoComments">No comments</span>) : 
+             (<a className="ShowComments" onClick={this.showComments.bind(this)}>
+               {this.state.showComments ? 'Hide' : 'Show'} {comments.length} {comments.length === 1 ? 'comment' : 'comments'}
+             </a>)}
         </div>
         {
           this.state.showComments ? <div className="commentsContainer">
