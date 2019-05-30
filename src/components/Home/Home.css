@@ -59,22 +59,21 @@
 }
 
 .mobileMenuBtnRow {
+    position: fixed;
     width:100%;
     background-color: #009999;
     border-color: #009999;
     display: none;
 }
 
-@media (max-width:960px){
+@media (max-width:1024px){
     .mobileMenuBtn {
         text-align: center;
         display: block;
     }
     .ChannelList {
-        height: auto;
-        padding: 10px;
-        width: 100%;
-        position: relative;
+        top: 118px;
+        border-right: solid 4px #009999;
     }
 
     .hideMobile{
@@ -96,5 +95,6 @@
     .Feed {
         margin-left: 10px;
         margin-right: 10px;
+        margin-top: 38px;
     }
 }
