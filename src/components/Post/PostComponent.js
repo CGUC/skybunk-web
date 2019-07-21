@@ -55,6 +55,7 @@ export default class Post extends React.Component {
 
   async fetchImage() {
     if (this.props.data.image) {
+      console.log(`This post haev image: ${this.props.data._id}`);
       await ApiClient.get(`/posts/${this.props.data._id}/image`, { authorized: true }).then(pic => {
         this.setState({
           image: pic

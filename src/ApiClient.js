@@ -47,7 +47,7 @@ export default class ApiClient {
 				return responseJSON;
 			})
 			.catch(err => {
-				err = err.replace(/</g, '').replace(/>/g, '');
+				err = err.toString().replace(/</g, '').replace(/>/g, '');
 				console.error(err);
 			});
 	}
@@ -64,7 +64,7 @@ export default class ApiClient {
 			return responseJSON;
 		})
 		.catch(err => {
-			err = err.replace(/</g, '').replace(/>/g, '');
+			err = err.toString().replace(/</g, '').replace(/>/g, '');
 			console.error(err);
 		});
 	};
@@ -92,22 +92,19 @@ export default class ApiClient {
 			return responseJSON
 		})
 		.catch(err => {
-			err = err.replace(/</g, '').replace(/>/g, '');
+			err = err.toString().replace(/</g, '').replace(/>/g, '');
 			console.error(err);
 		});
 	}
 
-	static uploadPhoto(endpoint, uri, name, options={}) {
-		const method = options.method ? options.method : 'PUT'
-
-		let uriParts = uri.split('.');
-		let fileType = uriParts[uriParts.length - 1];
-
+	static uploadPhotoWithoutURI(endpoint, file, name, options={}) {
+		const method = options.method ? options.method : 'PUT';
 		let formData = new FormData();
+		let fileName = file.name;
 		formData.append(name, {
-			uri,
-			name: `${name}.${fileType}`,
-			type: `image/${fileType}`,
+			fileName,
+			name: `${fileName}`,
+			type: `${file.type}`,
 		});
 
 		return fetch(`${config.API_ADDRESS}${endpoint}`, {
@@ -120,7 +117,35 @@ export default class ApiClient {
 		})
 		.then(responseJSON => responseJSON)
 		.catch(err => {
-			err = err.replace(/</g, '').replace(/>/g, '');
+			err = err.toString().replace(/</g, '').replace(/>/g, '');
+			console.error(err);
+		});
+	}
+
+	static async uploadPhoto(endpoint, uri, name, options={}) {
+		const method = options.method ? options.method : 'PUT'
+
+		let uriParts = uri.split('.');
+		let fileType = uriParts[uriParts.length - 1];
+
+		let formData = new FormData();
+		formData.append(name, {
+			uri,
+			name: `${name}.${fileType}`,
+			type: `image/${fileType}`,
+		});
+		console.log(name);
+		return fetch(`${config.API_ADDRESS}${endpoint}`, {
+			method:  method,
+			headers: await this.formatHeaders({...options, contentType: 'multipart/form-data'}),
+			body: formData,
+		})
+		.then(response => {
+			return response.json();
+		})
+		.then(responseJSON => responseJSON)
+		.catch(err => {
+			err = err.toString().replace(/</g, '').replace(/>/g, '');
 			console.error(err);
 		});
 	}
@@ -132,7 +157,7 @@ export default class ApiClient {
 			headers:  this.formatHeaders(options)
 		})
 		.catch(err => {
-			err = err.replace(/</g, '').replace(/>/g, '');
+			err = err.toString().replace(/</g, '').replace(/>/g, '');
 			console.error(err);
 		});
 	}

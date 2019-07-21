@@ -137,16 +137,34 @@ export default class Feed extends Component {
       author: user._id,
       tags: channel.tags,
       content: data.content,
-      image: data.image,
     }
+    console.log(data);
 
     ApiClient.post(`/posts/`, postContent, { authorized: true })
+      .then(response => {
+        console.log(response);
+        console.log("the second post");
+        if (data.image) {
+          new Promise(function(resolve, reject) {
+            ApiClient.uploadPhoto(
+                `/posts/${response._id}/image`,
+                data.image,
+                'image',
+                {authorized: true, method: 'POST'}
+              ).catch(err => {
+                reject(err);
+              });
+            })
+        }
+      })
       .then(() => {
         this.loadData({ reload: true });
       })
       .catch(err => {
+        console.log(err);
         alert("Error adding post. Sorry about that!")
       });
+      
   }
 
   render() {

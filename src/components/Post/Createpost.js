@@ -28,16 +28,27 @@ export default class CreatePost extends React.Component {
       });
     }
     else{
+      console.log(picture[0]);
       this.setState({
-          image: picture[0],
-      });
+          image: URL.createObjectURL(picture[0]),
+        });
+        /*
+      var reader = new FileReader();
+      reader.readAsDataURL(picture[0]);
+      reader.addEventListener("load", () => {
+        console.log(reader.result);
+        this.setState({
+          image: reader.result,
+        });
+      }, false);
+      */
     }
   }
 
   getImageIcon = () => {
     if (this.state.image != null) {
-      console.log(this.state.image.name);
-      return URL.createObjectURL(this.state.image);
+      //console.log(this.state.image);
+      return this.state.image;
     }
     return CatIcon;
   }
@@ -52,11 +63,10 @@ export default class CreatePost extends React.Component {
   addPost = () => {
     let { postContent, image, ref } = this.state;
     const { onAddPost } = this.props;
-
+    console.log(image);
     if (!postContent) return;
 
     ref.value = '';
-
     if (onAddPost) onAddPost({
       content: postContent,
       image: image
@@ -81,31 +91,34 @@ export default class CreatePost extends React.Component {
             />
           </div>
           {this.state.uploadInterface &&
-            <ImageUploader
-              withPreview
-              withIcon={false}
-              withLabel={false}
-              singleImage={true}
-              buttonText='Choose an image'
-              buttonStyles={{
-                display: this.state.image ? 'none' : 'inline',
-                height: '30px',
-                fontSize: '15px',
-                backgroundColor: '#71d3d1',
-                color: 'white',
-                borderWidth: '0px',
-                borderRadius: '2px',
-              }}
-              fileContainerStyle={{
-                boxShadow: 'none',
-                webkitBoxShadow: 'none',
-                padding: '0',
-                transition: 'none',
-              }}              
-              onChange={this.onDrop}
-              imgExtension={['.jpg', '.gif', '.png']}
-              maxFileSize={5242880}
-            />
+            <div>
+              <img src={imageIcon}/>
+              <ImageUploader
+                withPreview
+                withIcon={false}
+                withLabel={false}
+                singleImage={true}
+                buttonText='Choose an image'
+                buttonStyles={{
+                  display: this.state.image ? 'none' : 'inline',
+                  height: '30px',
+                  fontSize: '15px',
+                  backgroundColor: '#71d3d1',
+                  color: 'white',
+                  borderWidth: '0px',
+                  borderRadius: '2px',
+                }}
+                fileContainerStyle={{
+                  boxShadow: 'none',
+                  webkitBoxShadow: 'none',
+                  padding: '0',
+                  transition: 'none',
+                }}              
+                onChange={this.onDrop}
+                imgExtension={['.jpg', '.gif', '.png']}
+                maxFileSize={5242880}
+              />
+            </div>
           }
         </div>
         <div className="content">
