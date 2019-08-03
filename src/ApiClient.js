@@ -113,36 +113,8 @@ export default class ApiClient {
 		});
 	}
 
-	static uploadPhotoWithoutURI(endpoint, file, name, options={}) {
-		const method = options.method ? options.method : 'PUT';
-		let formData = new FormData();
-		let fileName = file.name;
-		formData.append(name, {
-			fileName,
-			name: `${fileName}`,
-			type: `${file.type}`,
-		});
-
-		return fetch(`${config.API_ADDRESS}${endpoint}`, {
-			method: method,
-			headers: this.formatHeadersForUpload({...options, contentType: 'multipart/form-data'}),
-			body: formData,
-		})
-		.then(response => {
-			return response.json();
-		})
-		.then(responseJSON => responseJSON)
-		.catch(err => {
-			err = err.toString().replace(/</g, '').replace(/>/g, '');
-			console.error(err);
-		});
-	}
-
 	static async uploadPhoto(endpoint, image, name, options={}) {
 		const method = options.method ? options.method : 'PUT'
-
-		//let uriParts = uri.split('.');
-		//let fileType = uriParts[uriParts.length - 1];
 
 		let formData = new FormData();
 		formData.append(name, image);
