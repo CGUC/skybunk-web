@@ -118,7 +118,6 @@ export default class ApiClient {
 
 		let formData = new FormData();
 		formData.append(name, image);
-		console.log(name);
 		return fetch(`${config.API_ADDRESS}${endpoint}`, {
 			method:  method,
 			headers: await this.formatHeadersForUpload({...options}),
