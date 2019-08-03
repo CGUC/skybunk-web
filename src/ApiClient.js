@@ -3,7 +3,7 @@ import config from './config';
 var token;
 export default class ApiClient {
 	static formatHeaders(options){
-		const contentType = options.contentType ? options.contentType : 'application/json'
+		const contentType = options.contentType ? options.contentType : 'application/json';
 		if(options.authorized){
 			return  {
 				'Accept': 'application/json',
@@ -16,6 +16,22 @@ export default class ApiClient {
 			return  {
 				'Accept': 'application/json',
 				'Content-Type': contentType,
+				...options.headers
+			}
+		}
+	}
+
+	static formatHeadersForUpload(options){
+		if(options.authorized){
+			return  {
+				'Accept': 'application/json',
+				'Authorization': 'Bearer ' + this.getAuthToken(),
+				...options.headers
+			}
+		}
+		else {
+			return  {
+				'Accept': 'application/json',
 				...options.headers
 			}
 		}
@@ -109,7 +125,7 @@ export default class ApiClient {
 
 		return fetch(`${config.API_ADDRESS}${endpoint}`, {
 			method: method,
-			headers: this.formatHeaders({...options, contentType: 'multipart/form-data'}),
+			headers: this.formatHeadersForUpload({...options, contentType: 'multipart/form-data'}),
 			body: formData,
 		})
 		.then(response => {
@@ -122,22 +138,18 @@ export default class ApiClient {
 		});
 	}
 
-	static async uploadPhoto(endpoint, uri, name, options={}) {
+	static async uploadPhoto(endpoint, image, name, options={}) {
 		const method = options.method ? options.method : 'PUT'
 
-		let uriParts = uri.split('.');
-		let fileType = uriParts[uriParts.length - 1];
+		//let uriParts = uri.split('.');
+		//let fileType = uriParts[uriParts.length - 1];
 
 		let formData = new FormData();
-		formData.append(name, {
-			uri,
-			name: `${name}.${fileType}`,
-			type: `image/${fileType}`,
-		});
+		formData.append(name, image);
 		console.log(name);
 		return fetch(`${config.API_ADDRESS}${endpoint}`, {
 			method:  method,
-			headers: await this.formatHeaders({...options, contentType: 'multipart/form-data'}),
+			headers: await this.formatHeadersForUpload({...options}),
 			body: formData,
 		})
 		.then(response => {

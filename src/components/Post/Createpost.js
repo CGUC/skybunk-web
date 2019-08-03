@@ -3,7 +3,6 @@ import React from 'react';
 import './PostComponent.css';
 import Button from '../Shared/Button/Button';
 import './CreatePost.css';
-import CatIcon from '../../assets/catIcon.png';
 import ImageUploader from 'react-images-upload';
 import MaterialIcon from 'material-icons-react'
 
@@ -28,29 +27,10 @@ export default class CreatePost extends React.Component {
       });
     }
     else{
-      console.log(picture[0]);
       this.setState({
-          image: URL.createObjectURL(picture[0]),
+          image: picture[0],
         });
-        /*
-      var reader = new FileReader();
-      reader.readAsDataURL(picture[0]);
-      reader.addEventListener("load", () => {
-        console.log(reader.result);
-        this.setState({
-          image: reader.result,
-        });
-      }, false);
-      */
     }
-  }
-
-  getImageIcon = () => {
-    if (this.state.image != null) {
-      //console.log(this.state.image);
-      return this.state.image;
-    }
-    return CatIcon;
   }
 
   showUploadInterface = () => {
@@ -63,7 +43,6 @@ export default class CreatePost extends React.Component {
   addPost = () => {
     let { postContent, image, ref } = this.state;
     const { onAddPost } = this.props;
-    console.log(image);
     if (!postContent) return;
 
     ref.value = '';
@@ -71,11 +50,16 @@ export default class CreatePost extends React.Component {
       content: postContent,
       image: image
     });
+    if(this.state.image) {
+      this.setState({
+        image: null,
+        uploadInterface: false
+      });
+    }
   }
 
   render() {
     const { channel } = this.props;
-    const imageIcon = this.getImageIcon();
     return (
       <div className="card creationCard">
         {/* <div className="headerContent">
@@ -92,7 +76,6 @@ export default class CreatePost extends React.Component {
           </div>
           {this.state.uploadInterface &&
             <div>
-              <img src={imageIcon}/>
               <ImageUploader
                 withPreview
                 withIcon={false}
