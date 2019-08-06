@@ -63,7 +63,7 @@ export default class ApiClient {
 				return responseJSON;
 			})
 			.catch(err => {
-				err = err.toString().replace(/</g, '').replace(/>/g, '');
+				err = err.replace(/</g, '').replace(/>/g, '');
 				console.error(err);
 			});
 	}
@@ -80,7 +80,7 @@ export default class ApiClient {
 			return responseJSON;
 		})
 		.catch(err => {
-			err = err.toString().replace(/</g, '').replace(/>/g, '');
+			err = err.replace(/</g, '').replace(/>/g, '');
 			console.error(err);
 		});
 	};
@@ -108,7 +108,7 @@ export default class ApiClient {
 			return responseJSON
 		})
 		.catch(err => {
-			err = err.toString().replace(/</g, '').replace(/>/g, '');
+			err = err.replace(/</g, '').replace(/>/g, '');
 			console.error(err);
 		});
 	}
@@ -128,7 +128,7 @@ export default class ApiClient {
 		})
 		.then(responseJSON => responseJSON)
 		.catch(err => {
-			err = err.toString().replace(/</g, '').replace(/>/g, '');
+			err = err.replace(/</g, '').replace(/>/g, '');
 			console.error(err);
 		});
 	}
@@ -140,7 +140,7 @@ export default class ApiClient {
 			headers:  this.formatHeaders(options)
 		})
 		.catch(err => {
-			err = err.toString().replace(/</g, '').replace(/>/g, '');
+			err = err.replace(/</g, '').replace(/>/g, '');
 			console.error(err);
 		});
 	}
