@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SkybunkLogo from '../../../assets/skybunk-logo-no-words.png'
 import './Header.css';
 
 class Header extends Component {
@@ -6,7 +7,8 @@ class Header extends Component {
     return (
     	<div className="Header">
         <div className="HeaderLeft">
-      	  <h1>Skybunk</h1>
+          <img className="HeaderLogo" src={SkybunkLogo}/>
+      	  <div className="HeaderTitle">Skybunk</div>
         </div>
       	<div className="HeaderRight">
       		{this.props.children}
