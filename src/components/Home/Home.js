@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Header from '../Shared/Header/Header';
-import HeaderButton from '../Shared/Header/HeaderButton';
 import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
 import ApiClient from '../../ApiClient';
