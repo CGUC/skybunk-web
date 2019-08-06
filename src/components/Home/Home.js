@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Header from '../Shared/Header/Header';
+import HeaderButton from '../Shared/Header/HeaderButton';
 import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
 import ApiClient from '../../ApiClient';
-
-
+import settingsIcon from '../../assets/settings-icon.png'
+import channelIcon from '../../assets/Channel-icon-nav.png'
+import notifIcon from '../../assets/header-bell-notification.png'
 import './Home.css';
 
 class Home extends Component {
@@ -36,12 +38,16 @@ class Home extends Component {
 		try {
 			var response = await ApiClient.get('/users/loggedInUser', { authorized: true });
 			this.setState({ user: response, loading: false });
-			console.log(response);
+			var getProfilePic = await ApiClient.get(`/users/${response._id}/profilePicture`, { authorized: true })
+			.then(pic => {
+		      this.setState({
+		        profilePicture: pic,
+		      });
+		    });
 		} catch (err) {
 			console.log(err);
 			this.props.history.push('/login');
 		}
-		
 	}
 
 	onClickChannel = (channel) => {
@@ -119,12 +125,36 @@ class Home extends Component {
 
 		return (
 			<div className="Home">
-				<Header 
-					isLoggedIn
-					userId = {user ? user._id : null}
-					activePage="home"
-					settingsClick= {this.account.bind(this)}
+				<Header>
+					<div className="HeaderButton" onClick={this.account.bind(this)}>
+			        <img className="HeaderChannel" src={channelIcon}/>
+			        <div>Channels</div>
+			      </div>
+			      <div className="HeaderButton" onClick={this.account.bind(this)}>
+			        <img className="HeaderNotif" src={notifIcon}/>
+			        <div>Notifications</div>
+			      </div>
+					<div className="HeaderButton" onClick={this.account.bind(this)}>
+				        <img 
+				        	className="HeaderProfile" 
+				        	src={`data:image/png;base64,${this.state.profilePicture}`}
+				        />
+				      </div>
+					<div className="HeaderButton" onClick={this.account.bind(this)}>
+				        <img className="HeaderSettings" src={settingsIcon}/>
+				      </div>
+					{/*
+					<p className="logout" onClick={this.logout.bind(this)}>Logout</p>
+					<HeaderButton
+						onClick={this.account.bind(this)}
+						hasImg={true}
+						Img={settingsIcon}
+						hasText={true}
+						text="butt"
 					/>
+					
+				*/}
+				</Header>
 				{content}
 			</div>
 		);

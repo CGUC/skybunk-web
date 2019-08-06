@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import ApiClient from '../../../ApiClient';
 import TextInput from '../../Shared/TextInput/TextInput';
 import { withRouter } from 'react-router-dom';
@@ -6,6 +7,9 @@ import SkybunkLogo from '../../../assets/skybunk-logo-no-words.png'
 import settingsIcon from '../../../assets/settings-icon.png'
 import channelIcon from '../../../assets/Channel-icon-nav.png'
 import notifIcon from '../../../assets/header-bell-notification.png'
+=======
+import SkybunkLogo from '../../../assets/skybunk-logo-no-words.png'
+>>>>>>> Initial theme change - No functionality
 import './Header.css';
 
 class Header extends Component {
