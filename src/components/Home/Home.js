@@ -38,7 +38,6 @@ class Home extends Component {
 		        profilePicture: pic,
 		      });
 		    });
-		    console.log(getProfilePic);
 		} catch (err) {
 			console.log(err);
 			this.props.history.push('/login');
