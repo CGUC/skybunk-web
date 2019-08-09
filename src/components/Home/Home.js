@@ -129,11 +129,14 @@ class Home extends Component {
 			        <img className="HeaderChannel" src={channelIcon}/>
 			        <div>Channels</div>
 			      </div>
-			      <div className="HeaderButton" onClick={this.account.bind(this)}>
+			      {/* Re-enable once Notifications page is created
+			      <div className="HeaderButton" onClick={this.notifications.bind(this)}>
 			        <img className="HeaderNotif" src={notifIcon}/>
 			        <div>Notifications</div>
 			      </div>
-					<div className="HeaderButton" onClick={this.account.bind(this)}>
+			  */} 
+			  {/*TODO: onClick() direct to Profile Page*/}
+					<div className="HeaderButton" >
 				        <img 
 				        	className="HeaderProfile" 
 				        	src={`data:image/png;base64,${this.state.profilePicture}`}
@@ -142,17 +145,6 @@ class Home extends Component {
 					<div className="HeaderButton" onClick={this.account.bind(this)}>
 				        <img className="HeaderSettings" src={settingsIcon}/>
 				      </div>
-					{/*
-					<p className="logout" onClick={this.logout.bind(this)}>Logout</p>
-					<HeaderButton
-						onClick={this.account.bind(this)}
-						hasImg={true}
-						Img={settingsIcon}
-						hasText={true}
-						text="butt"
-					/>
-					
-				*/}
 				</Header>
 				{content}
 			</div>
