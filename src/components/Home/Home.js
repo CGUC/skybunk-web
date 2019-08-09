@@ -46,13 +46,6 @@ class Home extends Component {
 		
 	}
 
-	componentDidUpdate(prevProps, prevState){
-		if(prevState.profilePicture !== this.state.profilePicture){
-			console.log("hi");
-		}
-
-	}
-
 	onClickChannel = (channel) => {
 		this.setState({ selectedChannel: channel });
 	}
