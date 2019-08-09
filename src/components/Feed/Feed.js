@@ -132,7 +132,6 @@ export default class Feed extends Component {
     const { channel, user } = this.props;
 
     if (!channel.tags) return alert("Cannot add post to this channel");
-
     const postContent = {
       author: user._id,
       tags: channel.tags,
@@ -140,12 +139,29 @@ export default class Feed extends Component {
     }
 
     ApiClient.post(`/posts/`, postContent, { authorized: true })
-      .then(() => {
-        this.loadData({ reload: true });
+      .then(response => {
+        if (data.image) {
+          new Promise(function(resolve, reject) {
+            ApiClient.uploadPhoto(
+                `/posts/${response._id}/image`,
+                data.image,
+                'image',
+                {authorized: true, method: 'POST'}
+              ).catch(err => {
+                reject(err);
+              })
+              ;
+            }).then(() => this.loadData({ reload: true }));
+        }
+        else{
+          this.loadData({ reload: true });
+        }
       })
       .catch(err => {
+        console.log(err);
         alert("Error adding post. Sorry about that!")
       });
+      
   }
 
   render() {

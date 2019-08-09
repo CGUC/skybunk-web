@@ -104,7 +104,7 @@ class Login extends Component {
           try{
             document.getElementsByClassName("LoginBtn")[0].click();
           }
-          catch{
+          catch(e){
 
           }
         }

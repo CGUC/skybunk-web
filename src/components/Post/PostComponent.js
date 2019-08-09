@@ -81,6 +81,8 @@ export default class Post extends React.Component {
     }
     if (data.author._id !== prevProps.data.author._id) {
       this.fetchProfilePicture();
+    }
+    if(data._id !== prevProps.data._id) {
       this.fetchImage();
     }
   }

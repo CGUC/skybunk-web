@@ -110,6 +110,10 @@
 .PostButton {
 }
 
+.UploadButton {
+  
+}
+
 .ShowComments {
   text-decoration: unset;
   cursor: pointer;
