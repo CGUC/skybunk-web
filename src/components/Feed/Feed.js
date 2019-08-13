@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import _ from 'lodash';
 
 import Post from '../Post/PostComponent';
-import CreatePost from '../Post/Createpost';
+import CreatePost from '../Post/CreatePost';
 import ApiClient from '../../ApiClient';
 
 import './Feed.css';
