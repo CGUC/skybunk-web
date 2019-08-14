@@ -114,16 +114,13 @@ class Channel extends Component {
         return (
           <div className={channelClassnames}>
             <button className="IconButton" onClick={() => { this.updateSubscription(channel._id, subIndex) }}>
-              {hide ? <div style={{ width: '50px' }} /> : <img src={icon} className="BellIcon" />}
+              {hide ? <div style={{ width: '23px' }} /> : <img src={icon} className="BellIcon" />}
             </button>
             <div className="ChannelDisplay" onClick={() => { this.onClickChannel(channel) }}>
               {/* <button className="ChannelButton" onClick={() => { this.onClickChannel(channel) }}> */}
                 <h3 className="ChannelTitle">
                   {channel.name}
                 </h3>
-                <div className="ArrowContainer">
-                  <img src={require('../../assets/arrowright.png')} className="ArrowIcon" />
-                </div>
               {/* </button> */}
             </div>
           </div>

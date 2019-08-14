@@ -21,6 +21,16 @@ class EditAccount extends Component {
         };
     }
 
+    async componentDidMount() {
+        const user = await ApiClient.get(
+            '/users/loggedInUser', 
+            { authorized: true }
+        );
+        this.setState({
+            currentUser:user 
+        });
+    }
+
     updateFormStateFunc(key) {
         return (event) => {
             this.setState({
@@ -41,12 +51,7 @@ class EditAccount extends Component {
             return;
         }
 
-        const currentUser = await ApiClient.get(
-            '/users/loggedInUser', 
-            { authorized: true }
-        );
-
-        if (currentUser._id !== this.props.match.params.id) {
+        if (this.state.currentUser._id !== this.props.match.params.id) {
             this.setState({error: 'Not authorized'});
             return;
         }
@@ -68,14 +73,15 @@ class EditAccount extends Component {
     }
 
     render() {
-        const { success, error } = this.state;
+        const { success, error, currentUser } = this.state;
         return (
             <div className="Main">
-                <Header>
-                    <p className="header-item" onClick={this.goHome.bind(this)}>
-                        Home
-                    </p>
-                </Header>
+                <Header 
+                    isLoggedIn
+                    userId = {currentUser ? currentUser._id : null}
+                    homeClick = {this.goHome.bind(this)}
+                    activePage="settings"
+                />
                 <div className="Register">
                     <div className="Card">
                         <h2>Change Password</h2>

@@ -6,10 +6,6 @@ import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
 import ApiClient from '../../ApiClient';
 
-import settingsIcon from '../../assets/settings-icon.png'
-import channelIcon from '../../assets/Channel-icon-nav.png'
-import notifIcon from '../../assets/header-bell-notification.png'
-
 
 import './Home.css';
 
@@ -24,6 +20,15 @@ class Home extends Component {
 		await this.getUser();
 	}
 
+	async account() {
+	    const currentUser = await ApiClient.get(
+	        '/users/loggedInUser',
+	        { authorized: true }
+	    );
+	    if (currentUser._id)
+	      this.props.history.push(`/users/${currentUser._id}/edit`);
+	  }
+
 	async getUser() {
 
 		this.setState({ loading: true });
@@ -32,12 +37,6 @@ class Home extends Component {
 			var response = await ApiClient.get('/users/loggedInUser', { authorized: true });
 			this.setState({ user: response, loading: false });
 			console.log(response);
-			var getProfilePic = await ApiClient.get(`/users/${response._id}/profilePicture`, { authorized: true })
-			.then(pic => {
-		      this.setState({
-		        profilePicture: pic,
-		      });
-		    });
 		} catch (err) {
 			console.log(err);
 			this.props.history.push('/login');
@@ -78,15 +77,6 @@ class Home extends Component {
 		this.props.history.push('/login');
 	}
 
-	async account() {
-		const currentUser = await ApiClient.get(
-		    '/users/loggedInUser',
-		    { authorized: true }
-		);
-		if (currentUser._id)
-			this.props.history.push(`/users/${currentUser._id}/edit`);
-	}
-
 	render() {
 
 		const {
@@ -123,13 +113,28 @@ class Home extends Component {
 							user={user}
 						/>
 					</div>
+					<div className="HoverProfilePlaceholder" />
 				</div>
 			);
 
 		return (
 			<div className="Home">
-				<Header>
-					<div className="HeaderButton" onClick={this.account.bind(this)}>
+				<Header 
+					isLoggedIn
+					userId = {user ? user._id : null}
+					activePage="home"
+					settingsClick= {this.account.bind(this)}
+					/>
+				{content}
+			</div>
+		);
+	}
+}
+
+export default withRouter(Home);
+
+
+/*<div className="HeaderButton">
 			        <img className="HeaderChannel" src={channelIcon}/>
 			        <div>Channels</div>
 			      </div>
@@ -138,8 +143,7 @@ class Home extends Component {
 			        <img className="HeaderNotif" src={notifIcon}/>
 			        <div>Notifications</div>
 			      </div>
-			  */} 
-			  {/*TODO: onClick() direct to Profile Page*/}
+			  
 					<div className="HeaderButton" >
 				        <img 
 				        	className="HeaderProfile" 
@@ -149,11 +153,4 @@ class Home extends Component {
 					<div className="HeaderButton" onClick={this.account.bind(this)}>
 				        <img className="HeaderSettings" src={settingsIcon}/>
 				      </div>
-				</Header>
-				{content}
-			</div>
-		);
-	}
-}
-
-export default withRouter(Home);
+				</Header> */
