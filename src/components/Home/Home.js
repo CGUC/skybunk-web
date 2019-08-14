@@ -5,9 +5,14 @@ import Header from '../Shared/Header/Header';
 import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
 import ApiClient from '../../ApiClient';
+<<<<<<< HEAD
 import settingsIcon from '../../assets/settings-icon.png'
 import channelIcon from '../../assets/Channel-icon-nav.png'
 import notifIcon from '../../assets/header-bell-notification.png'
+=======
+
+
+>>>>>>> Functional header based on new design
 import './Home.css';
 
 class Home extends Component {
@@ -124,8 +129,22 @@ class Home extends Component {
 
 		return (
 			<div className="Home">
-				<Header>
-					<div className="HeaderButton" onClick={this.account.bind(this)}>
+				<Header 
+					isLoggedIn
+					userId = {user ? user._id : null}
+					activePage="home"
+					settingsClick= {this.account.bind(this)}
+					/>
+				{content}
+			</div>
+		);
+	}
+}
+
+export default withRouter(Home);
+
+
+/*<div className="HeaderButton">
 			        <img className="HeaderChannel" src={channelIcon}/>
 			        <div>Channels</div>
 			      </div>
@@ -134,8 +153,7 @@ class Home extends Component {
 			        <img className="HeaderNotif" src={notifIcon}/>
 			        <div>Notifications</div>
 			      </div>
-			  */} 
-			  {/*TODO: onClick() direct to Profile Page*/}
+			  
 					<div className="HeaderButton" >
 				        <img 
 				        	className="HeaderProfile" 
@@ -145,6 +163,7 @@ class Home extends Component {
 					<div className="HeaderButton" onClick={this.account.bind(this)}>
 				        <img className="HeaderSettings" src={settingsIcon}/>
 				      </div>
+<<<<<<< HEAD
 				</Header>
 				{content}
 			</div>
@@ -174,4 +193,6 @@ export default withRouter(Home);
 					<div className="HeaderButton" onClick={this.account.bind(this)}>
 				        <img className="HeaderSettings" src={settingsIcon}/>
 				      </div>
+=======
+>>>>>>> Functional header based on new design
 				</Header> */
