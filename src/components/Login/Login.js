@@ -4,6 +4,7 @@ import Button from '../Shared/Button/Button';
 import Header from '../Shared/Header/Header';
 import { withRouter } from 'react-router-dom';
 import ApiClient from '../../ApiClient';
+
 import './Login.css';
 
 class Login extends Component {
@@ -52,8 +53,12 @@ class Login extends Component {
         }
         else {
             ApiClient.setAuthToken(response.token);
-            this.props.history.push('/home');
+            this.transitionToHomePage();
         }
+    }
+
+    transitionToHomePage() {
+        this.props.history.push('/home');
     }
 
     async submitRegister() {
@@ -120,19 +125,10 @@ class Login extends Component {
         const { loginError, resgisterError } = this.state;
         return (
             <div className="Main">
-                <Header>
-                    <div className="Login hideMobile">
-                        <div className="LoginTitle">Login</div>
-                        <div className="LoginForms">
-                            <TextInput name="username" placeholder="Username" onChange={this.updateFormStateFunc('username')} onKeyPress={this.pressLoginBtn}/>
-                            <TextInput type="password" name="password" placeholder="Password" onChange={this.updateFormStateFunc('password')} onKeyPress={this.pressLoginBtn}/>
-                            <button onClick={this.submitLogin.bind(this)} className="Button LoginBtn">
-                                Login
-                            </button>
-                        </div>
-                        {loginError ? <div className="LoginError">*{loginError}</div> : null}
-                    </div>
-                </Header>
+                <Header
+                    isLoggedIn={false}
+                    loginMethod={this.transitionToHomePage.bind(this)}
+                />
                 <div className="mobileLogin">
                     <div className="Card">
                         <h2>Login</h2>

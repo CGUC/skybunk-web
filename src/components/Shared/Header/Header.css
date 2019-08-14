@@ -21,6 +21,7 @@
 }
 
 .HeaderTitle {
+	cursor: default;
 	font-size: 36px;
 	line-height: 42px;
 	font-family: Roboto;
@@ -68,6 +69,18 @@
 }
 
 .HeaderProfile {
+	 width:40px;
 	 border-radius: 25px;
 	 height: 40px;
+}
+
+.HeaderButtonActive {
+	cursor: pointer;
+	height:65px;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+	border-bottom: 3px solid white;
 }

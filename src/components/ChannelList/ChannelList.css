@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: center;
+    align-items: right;
     margin-bottom: 21px;
 }
 .ChannelItem {
@@ -11,7 +11,8 @@
     justify-content: flex-start;
     align-items: center;
     direction: ltr;
-    width: 300px;
+    width: 250px;
+    line-height: 12px;
     background-color: #fff;
     border-bottom: black;
     border-bottom-width: 2px;
@@ -25,7 +26,7 @@
 }
 
 .BellIcon {
-    width: 50px;
+    height: 25px;
     cursor: pointer;
 }
 
@@ -55,7 +56,10 @@
 }
 
 .ChannelTitle {
-    /*font-size: 20px;*/
+    font-size: 16px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
     text-align:'left';
 	margin-left: 10px;
     white-space: nowrap;

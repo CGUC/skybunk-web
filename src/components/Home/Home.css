@@ -21,7 +21,8 @@
 }
 
 .ChannelList {
-    position: fixed;
+    flex-grow: 2;
+    float: right;
     margin-bottom: 10;
     overflow: auto;
     direction: rtl;
@@ -37,11 +38,14 @@
 }
 
 .Feed {
-    flex-grow: 1;
+    margin-left: 2%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 300px;
+}
+.HoverProfilePlaceholder{
+    flex-grow: 1;
+    min-width: 200px;
 }
 
 .mobileMenuBtn {
