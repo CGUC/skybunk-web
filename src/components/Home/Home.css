@@ -11,15 +11,6 @@
     justify-content: flex-start;
 }
 
-.HeaderButton {
-    cursor: pointer;
-    padding-left: 30px;
-    padding-right: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
 .ChannelList {
     flex-grow: 2;
     float: right;

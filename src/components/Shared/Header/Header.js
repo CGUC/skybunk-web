@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Functional header based on new design
 import ApiClient from '../../../ApiClient';
 import TextInput from '../../Shared/TextInput/TextInput';
 import { withRouter } from 'react-router-dom';
@@ -10,12 +6,7 @@ import SkybunkLogo from '../../../assets/skybunk-logo-no-words.png'
 import settingsIcon from '../../../assets/settings-icon.png'
 import channelIcon from '../../../assets/Channel-icon-nav.png'
 import notifIcon from '../../../assets/header-bell-notification.png'
-<<<<<<< HEAD
-=======
 import SkybunkLogo from '../../../assets/skybunk-logo-no-words.png'
->>>>>>> Initial theme change - No functionality
-=======
->>>>>>> Functional header based on new design
 import './Header.css';
 
 class Header extends Component {
@@ -116,28 +107,16 @@ class Header extends Component {
       <div className="HeaderRight">
         <div className={activePage == "home" ? "HeaderButtonActive" :"HeaderButton"} onClick={this.props.homeClick}>
             <img className="HeaderChannel" src={channelIcon}/>
-<<<<<<< HEAD
             <div className="HeaderButtonText">Channels</div>
-=======
-            <div>Channels</div>
->>>>>>> Functional header based on new design
           </div>
           {/* Re-enable once Notifications page is created
-          <div className="HeaderButton" onClick={this.notifications.bind(this)}>
-            <img className="HeaderNotif" src={notifIcon}/>
-<<<<<<< HEAD
-            <div className="HeaderButtonText" >Notifications</div>
-          </div>
+        <div className="HeaderButton" onClick={this.notifications.bind(this)}>
+          <img className="HeaderNotif" src={notifIcon}/>
+          <div className="HeaderButtonText" >Notifications</div>
+        </div>
         */} 
-      { /*TODO: onClick() direct to Profile Page*/}
+          { /*TODO: onClick() direct to Profile Page*/}
         <div className="HeaderButton" style ={{ cursor: 'default' }}>
-=======
-            <div>Notifications</div>
-          </div>
-        */} 
-      { /*TODO: onClick() direct to Profile Page*/}
-        <div className="HeaderButton" >
->>>>>>> Functional header based on new design
               {this.state.profilePicture ? ( 
                 <img 
                 className="HeaderProfile" 
@@ -148,7 +127,6 @@ class Header extends Component {
                 <div className="HeaderProfile"/>
                 )}
             </div>
-             
         <div className={activePage == "settings" ? "HeaderButtonActive" :"HeaderButton"} onClick={this.props.settingsClick}>
               <img className="HeaderSettings" src={settingsIcon}/>
             </div>
