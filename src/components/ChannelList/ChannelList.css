@@ -4,6 +4,9 @@
     justify-content: flex-start;
     align-items: right;
     margin-bottom: 21px;
+    width: fit-content;
+    border-radius: 6px;
+    border: 1px solid #CCC;
 }
 .ChannelItem {
     display: flex;
