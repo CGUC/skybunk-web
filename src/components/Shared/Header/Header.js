@@ -114,7 +114,7 @@ class Header extends Component {
           <div className="HeaderButtonText" >Notifications</div>
         </div>
         */} 
-          { /*TODO: onClick() direct to Profile Page*/}
+      { /*TODO: onClick() direct to Profile Page*/}
         <div className="HeaderButton" style ={{ cursor: 'default' }}>
               {this.state.profilePicture ? ( 
                 <img 

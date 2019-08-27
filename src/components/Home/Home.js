@@ -5,6 +5,8 @@ import Header from '../Shared/Header/Header';
 import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
 import ApiClient from '../../ApiClient';
+
+
 import './Home.css';
 
 class Home extends Component {
@@ -44,6 +46,7 @@ class Home extends Component {
 			console.log(err);
 			this.props.history.push('/login');
 		}
+		
 	}
 
 	onClickChannel = (channel) => {
@@ -134,57 +137,3 @@ class Home extends Component {
 }
 
 export default withRouter(Home);
-
-
-/*<div className="HeaderButton">
-			        <img className="HeaderChannel" src={channelIcon}/>
-			        <div>Channels</div>
-			      </div>
-			      {/* Re-enable once Notifications page is created
-			      <div className="HeaderButton" onClick={this.notifications.bind(this)}>
-			        <img className="HeaderNotif" src={notifIcon}/>
-			        <div>Notifications</div>
-			      </div>
-			  
-					<div className="HeaderButton" >
-				        <img 
-				        	className="HeaderProfile" 
-				        	src={`data:image/png;base64,${this.state.profilePicture}`}
-				        />
-				      </div>
-					<div className="HeaderButton" onClick={this.account.bind(this)}>
-				        <img className="HeaderSettings" src={settingsIcon}/>
-				      </div>
-<<<<<<< HEAD
-				</Header>
-				{content}
-			</div>
-		);
-	}
-}
-
-export default withRouter(Home);
-
-
-/*<div className="HeaderButton">
-			        <img className="HeaderChannel" src={channelIcon}/>
-			        <div>Channels</div>
-			      </div>
-			      {/* Re-enable once Notifications page is created
-			      <div className="HeaderButton" onClick={this.notifications.bind(this)}>
-			        <img className="HeaderNotif" src={notifIcon}/>
-			        <div>Notifications</div>
-			      </div>
-			  
-					<div className="HeaderButton" >
-				        <img 
-				        	className="HeaderProfile" 
-				        	src={`data:image/png;base64,${this.state.profilePicture}`}
-				        />
-				      </div>
-					<div className="HeaderButton" onClick={this.account.bind(this)}>
-				        <img className="HeaderSettings" src={settingsIcon}/>
-				      </div>
-=======
->>>>>>> Functional header based on new design
-				</Header> */
