@@ -106,16 +106,16 @@ class Header extends Component {
       <div className="HeaderRight">
         <div className={activePage == "home" ? "HeaderButtonActive" :"HeaderButton"} onClick={this.props.homeClick}>
             <img className="HeaderChannel" src={channelIcon}/>
-            <div>Channels</div>
+            <div className="HeaderButtonText">Channels</div>
           </div>
           {/* Re-enable once Notifications page is created
           <div className="HeaderButton" onClick={this.notifications.bind(this)}>
             <img className="HeaderNotif" src={notifIcon}/>
-            <div>Notifications</div>
+            <div className="HeaderButtonText" >Notifications</div>
           </div>
         */} 
       { /*TODO: onClick() direct to Profile Page*/}
-        <div className="HeaderButton" >
+        <div className="HeaderButton" style ={{ cursor: 'default' }}>
               {this.state.profilePicture ? ( 
                 <img 
                 className="HeaderProfile" 

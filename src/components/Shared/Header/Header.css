@@ -13,6 +13,7 @@
 
 .HeaderLeft {
 	padding-left: 10%;
+	padding-right: 15px;
 	flex: 5 1 auto;
 	display: flex;
 	flex-direction: row;
@@ -22,7 +23,6 @@
 
 .HeaderTitle {
 	cursor: default;
-	font-size: 36px;
 	line-height: 42px;
 	font-family: Roboto;
 	font-style: normal;
@@ -30,7 +30,6 @@
 }
 
 .HeaderLogo {
-	height: 38px;
 	padding-right: 10px;
 	padding-bottom: 8px;
 
@@ -46,8 +45,6 @@
 
 .HeaderButton {
     cursor: pointer;
-    padding-left: 30px;
-    padding-right: 30px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -77,10 +74,48 @@
 .HeaderButtonActive {
 	cursor: pointer;
 	height:65px;
-    padding-left: 30px;
-    padding-right: 30px;
     display: flex;
     flex-direction: row;
     align-items: center;
 	border-bottom: 3px solid white;
+}
+
+@media (max-width:960px){
+	.HeaderButtonText {
+		display:none;
+	}
+	.HeaderTitle {
+		font-size: 28px;
+	}
+	.HeaderLogo {
+		height: 30px;
+		padding-top: 4px;
+	}
+	.HeaderButton {
+		padding-left: 15px;
+    	padding-right: 15px;
+	}
+	.HeaderButtonActive {
+		padding-left: 15px;
+    	padding-right: 15px;
+	}
+}
+@media (min-width:961px){
+	.HeaderButtonText {
+		display:block;
+	}
+	.HeaderTitle {
+		font-size: 36px;
+	}
+	.HeaderLogo {
+		height: 38px;
+	}
+	.HeaderButton {
+		padding-left: 30px;
+    	padding-right: 30px;
+	}
+	.HeaderButtonActive {
+		padding-left: 30px;
+    	padding-right: 30px;
+	}
 }
