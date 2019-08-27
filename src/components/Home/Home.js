@@ -5,14 +5,6 @@ import Header from '../Shared/Header/Header';
 import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
 import ApiClient from '../../ApiClient';
-<<<<<<< HEAD
-import settingsIcon from '../../assets/settings-icon.png'
-import channelIcon from '../../assets/Channel-icon-nav.png'
-import notifIcon from '../../assets/header-bell-notification.png'
-=======
-
-
->>>>>>> Functional header based on new design
 import './Home.css';
 
 class Home extends Component {

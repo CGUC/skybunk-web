@@ -6,7 +6,6 @@ import SkybunkLogo from '../../../assets/skybunk-logo-no-words.png'
 import settingsIcon from '../../../assets/settings-icon.png'
 import channelIcon from '../../../assets/Channel-icon-nav.png'
 import notifIcon from '../../../assets/header-bell-notification.png'
-import SkybunkLogo from '../../../assets/skybunk-logo-no-words.png'
 import './Header.css';
 
 class Header extends Component {
