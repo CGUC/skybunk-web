@@ -19,6 +19,7 @@ class Header extends Component {
       profilePicture: null,
     }
   }
+
   async componentDidMount(){
     if(localStorage.getItem('skybunkToken') !== null) {
       const currentUser = await ApiClient.get(
