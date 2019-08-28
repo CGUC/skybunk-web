@@ -212,7 +212,7 @@ export default class Post extends React.Component {
           </div>
         </div>
         <div className="content">
-          <Linkify><p style={{cursor: 'default'}}>{content}</p></Linkify>
+          <Linkify><p style={{'white-space': 'pre-line'}}>{content}</p></Linkify>
           {image && <img className="postImage" src={`data:image/png;base64,${image}`}/>}
         </div>
         <div className="footers">
@@ -242,7 +242,7 @@ export default class Post extends React.Component {
                     <div className="commentHeader">
                       <b>{comment.author.firstName} {comment.author.lastName}</b>
                     </div>
-                    <p>{comment.content}</p>
+                    <p style={{'white-space': 'pre-line'}}>{comment.content}</p>
                   </div>
                 </div>)
             })}
