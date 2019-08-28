@@ -13,14 +13,49 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoggedIn : localStorage.getItem('skybunkToken') !== null ? true : false,
+      activePage : 'home',
       loginError: null,
+      profilePicture: null,
+    }
+  }
+  async componentDidMount(){
+    if(localStorage.getItem('skybunkToken') !== null) {
+      const currentUser = await ApiClient.get(
+          '/users/loggedInUser',
+          { authorized: true }
+      );
+      this.setState({user: currentUser})
+      this.getProfilePic();
     }
   }
 
   async componentDidUpdate(prevProps) {
-    if(prevProps.userId === null && this.props.userId !== null) {
-      await this.getProfilePic();  
+    if(prevProps.location.pathname !== this.props.location.pathname) {
     }
+  }
+
+  goToFeed(){
+    if(this.props.location.pathname !== '/home') {
+      this.props.history.push('/home');
+      this.setState({activePage: 'home'})
+    }
+  }
+
+  goToAccountSettings(){
+    let userId = this.state.user._id;
+    if (userId && this.props.location.pathname !== `/users/${userId}/edit`) {
+      this.props.history.push(`/users/${userId}/edit`);
+      this.setState({activePage: 'settings'})
+    }
+  }
+
+  logout(){
+    if(this.props.location.pathname !== '/login') {
+      localStorage.removeItem('skybunkToken');
+       this.props.history.push('/login');
+       this.setState({isLoggedIn: false, activePage: null, user:null});
+     }
   }
 
   async submitLogin() {
@@ -43,7 +78,14 @@ class Header extends Component {
       }
       else {
           ApiClient.setAuthToken(response.token);
-          this.props.loginMethod();
+          this.setState({isLoggedIn: true, activePage: 'home'})
+          this.goToFeed();
+          const currentUser = await ApiClient.get(
+              '/users/loggedInUser',
+              { authorized: true }
+          );
+          this.setState({user: currentUser})
+          this.getProfilePic();
       }
   }
 
@@ -73,12 +115,14 @@ class Header extends Component {
   }
 
   async getProfilePic() {
-    var profilePic = await ApiClient.get(`/users/${this.props.userId}/profilePicture`, { authorized: true })
-    .then(pic => {
-        this.setState({
-          profilePicture: pic,
+    if(this.state.profilePicture === null){
+      var profilePic = await ApiClient.get(`/users/${this.state.user._id}/profilePicture`, { authorized: true })
+      .then(pic => {
+          this.setState({
+            profilePicture: pic,
+          });
         });
-      });
+    }
   }
 
   notLoggedInHeader() {
@@ -101,10 +145,11 @@ class Header extends Component {
   }
 
   loggedInHeader() {
-    const {activePage, settingsClick, channelsClick } = this.props;
+    const {settingsClick, channelsClick } = this.props;
+    const {activePage} = this.state;
     return (
       <div className="HeaderRight">
-        <div className={activePage == "home" ? "HeaderButtonActive" :"HeaderButton"} onClick={this.props.homeClick}>
+        <div className={activePage == "home" ? "HeaderButtonActive" :"HeaderButton"} onClick={this.goToFeed.bind(this)}>
             <img className="HeaderChannel" src={channelIcon}/>
             <div className="HeaderButtonText">Channels</div>
           </div>
@@ -118,23 +163,26 @@ class Header extends Component {
         <div className="HeaderButton" style ={{ cursor: 'default' }}>
               {this.state.profilePicture ? ( 
                 <img 
-                className="HeaderProfile" 
-                style ={{ display: this.state.profilePicture ? 'inline' : 'none'}}
-                src={`data:image/png;base64,${this.state.profilePicture}`}
+                  className="HeaderProfile" 
+                  style={{ display: this.state.profilePicture ? 'inline' : 'none'}}
+                  src={`data:image/png;base64,${this.state.profilePicture}`}
                 />
                 ) : (
                 <div className="HeaderProfile"/>
                 )}
             </div>
-        <div className={activePage == "settings" ? "HeaderButtonActive" :"HeaderButton"} onClick={this.props.settingsClick}>
+        <div className={activePage == "settings" ? "HeaderButtonActive" :"HeaderButton"} onClick={this.goToAccountSettings.bind(this)}>
               <img className="HeaderSettings" src={settingsIcon}/>
             </div>
+        <div className="HeaderButton" onClick={this.logout.bind(this)}>
+          <div>Log Out</div>
+        </div>
       </div>  
     );
   } 
 
   render() {
-    let headerContents = this.props.isLoggedIn ? this.loggedInHeader() : this.notLoggedInHeader();
+    let headerContents = this.state.isLoggedIn ? this.loggedInHeader() : this.notLoggedInHeader();
     return (
     	<div className="Header">
         <div className="HeaderLeft">
@@ -147,4 +195,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);

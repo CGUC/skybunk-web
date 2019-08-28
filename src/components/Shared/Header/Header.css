@@ -23,6 +23,7 @@
 
 .HeaderTitle {
 	cursor: default;
+	font-size: 36px;
 	line-height: 42px;
 	font-family: Roboto;
 	font-style: normal;
@@ -85,7 +86,7 @@
 		display:none;
 	}
 	.HeaderTitle {
-		font-size: 28px;
+		display:none;
 	}
 	.HeaderLogo {
 		height: 30px;
@@ -105,7 +106,7 @@
 		display:block;
 	}
 	.HeaderTitle {
-		font-size: 36px;
+		display:block;
 	}
 	.HeaderLogo {
 		height: 38px;

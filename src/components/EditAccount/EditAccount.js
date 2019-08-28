@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TextInput from '../Shared/TextInput/TextInput';
 import Button from '../Shared/Button/Button';
-import Header from '../Shared/Header/Header';
 import { withRouter } from 'react-router-dom';
 import ApiClient from '../../ApiClient';
 import '../Login/Login.css';
@@ -39,10 +38,6 @@ class EditAccount extends Component {
         };
     }
 
-    goHome() {
-        this.props.history.push('/home');
-    }
-
     async changePassword() {
         this.setState({loading: true});
 
@@ -76,12 +71,6 @@ class EditAccount extends Component {
         const { success, error, currentUser } = this.state;
         return (
             <div className="Main">
-                <Header 
-                    isLoggedIn
-                    userId = {currentUser ? currentUser._id : null}
-                    homeClick = {this.goHome.bind(this)}
-                    activePage="settings"
-                />
                 <div className="Register">
                     <div className="Card">
                         <h2>Change Password</h2>

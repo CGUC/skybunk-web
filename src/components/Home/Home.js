@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-
-import Header from '../Shared/Header/Header';
 import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
 import ApiClient from '../../ApiClient';
@@ -19,15 +17,6 @@ class Home extends Component {
 	async componentDidMount() {
 		await this.getUser();
 	}
-
-	async account() {
-	    const currentUser = await ApiClient.get(
-	        '/users/loggedInUser',
-	        { authorized: true }
-	    );
-	    if (currentUser._id)
-	      this.props.history.push(`/users/${currentUser._id}/edit`);
-	  }
 
 	async getUser() {
 
@@ -124,12 +113,7 @@ class Home extends Component {
 
 		return (
 			<div className="Home">
-				<Header 
-					isLoggedIn
-					userId = {user ? user._id : null}
-					activePage="home"
-					settingsClick= {this.account.bind(this)}
-					/>
+				
 				{content}
 			</div>
 		);

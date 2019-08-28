@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TextInput from '../Shared/TextInput/TextInput';
 import Button from '../Shared/Button/Button';
-import Header from '../Shared/Header/Header';
 import { withRouter } from 'react-router-dom';
 import ApiClient from '../../ApiClient';
 
@@ -53,12 +52,8 @@ class Login extends Component {
         }
         else {
             ApiClient.setAuthToken(response.token);
-            this.transitionToHomePage();
+            this.props.history.push('/home');
         }
-    }
-
-    transitionToHomePage() {
-        this.props.history.push('/home');
     }
 
     async submitRegister() {
@@ -125,10 +120,6 @@ class Login extends Component {
         const { loginError, resgisterError } = this.state;
         return (
             <div className="Main">
-                <Header
-                    isLoggedIn={false}
-                    loginMethod={this.transitionToHomePage.bind(this)}
-                />
                 <div className="mobileLogin">
                     <div className="Card">
                         <h2>Login</h2>
