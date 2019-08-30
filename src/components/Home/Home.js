@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-
-import Header from '../Shared/Header/Header';
 import ChannelList from '../ChannelList/ChannelList';
 import Feed from '../Feed/Feed';
 import ApiClient from '../../ApiClient';
+
+
 import './Home.css';
 
 class Home extends Component {
@@ -25,10 +25,17 @@ class Home extends Component {
 		try {
 			var response = await ApiClient.get('/users/loggedInUser', { authorized: true });
 			this.setState({ user: response, loading: false });
+			var getProfilePic = await ApiClient.get(`/users/${response._id}/profilePicture`, { authorized: true })
+			.then(pic => {
+		      this.setState({
+		        profilePicture: pic,
+		      });
+		    });
 		} catch (err) {
 			console.log(err);
 			this.props.history.push('/login');
 		}
+		
 	}
 
 	onClickChannel = (channel) => {
@@ -62,15 +69,6 @@ class Home extends Component {
 	logout() {
 		localStorage.removeItem('skybunkToken');
 		this.props.history.push('/login');
-	}
-
-	async account() {
-		const currentUser = await ApiClient.get(
-		    '/users/loggedInUser',
-		    { authorized: true }
-		);
-		if (currentUser._id)
-			this.props.history.push(`/users/${currentUser._id}/edit`);
 	}
 
 	render() {
@@ -109,15 +107,13 @@ class Home extends Component {
 							user={user}
 						/>
 					</div>
+					<div className="HoverProfilePlaceholder" />
 				</div>
 			);
 
 		return (
 			<div className="Home">
-				<Header>
-					<p className="logout" onClick={this.logout.bind(this)}>Logout</p>
-					<p className="logout" onClick={this.account.bind(this)}>Account</p>
-				</Header>
+				
 				{content}
 			</div>
 		);

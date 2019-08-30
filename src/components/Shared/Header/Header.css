@@ -2,21 +2,121 @@
 	position: fixed;
 	top: 0;
 	width: 100%;
-	height: 80px;
+	height: 69px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	background: linear-gradient(#71d3d1, #67bcba);
+	background: #C1464E;
 	color: white;
 }
 
 .HeaderLeft {
-	padding-left: 80px;
+	padding-left: 10%;
+	padding-right: 15px;
+	flex: 5 1 auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+	
+}
+
+.HeaderTitle {
+	cursor: default;
+	font-size: 36px;
+	line-height: 42px;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;;
+}
+
+.HeaderLogo {
+	padding-right: 10px;
+	padding-bottom: 8px;
+
 }
 
 .HeaderRight {
+	flex: 2 1 auto;
 	display: flex;
 	flex-direction: row;
-	padding-right: 80px;
+	justify-content: right;
+	padding-right: 10%;
+}
+
+.HeaderButton {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.HeaderChannel {
+	width: 40px;
+	height: 25px;
+	padding-right: 13px;
+}
+
+.HeaderSettings {
+	height: 33px;
+}
+
+.HeaderNotif {
+	height: 33px;
+	padding-right: 13px;
+}
+
+.HeaderProfile {
+	 width:40px;
+	 border-radius: 25px;
+	 height: 40px;
+}
+
+.HeaderButtonActive {
+	cursor: pointer;
+	height:65px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+	border-bottom: 3px solid white;
+}
+
+@media (max-width:960px){
+	.HeaderButtonText {
+		display:none;
+	}
+	.HeaderTitle {
+		display:none;
+	}
+	.HeaderLogo {
+		height: 30px;
+		padding-top: 4px;
+	}
+	.HeaderButton {
+		padding-left: 15px;
+    	padding-right: 15px;
+	}
+	.HeaderButtonActive {
+		padding-left: 15px;
+    	padding-right: 15px;
+	}
+}
+@media (min-width:961px){
+	.HeaderButtonText {
+		display:block;
+	}
+	.HeaderTitle {
+		display:block;
+	}
+	.HeaderLogo {
+		height: 38px;
+	}
+	.HeaderButton {
+		padding-left: 30px;
+    	padding-right: 30px;
+	}
+	.HeaderButtonActive {
+		padding-left: 30px;
+    	padding-right: 30px;
+	}
 }

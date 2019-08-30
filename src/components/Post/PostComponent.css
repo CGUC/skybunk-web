@@ -47,8 +47,6 @@
   height: 50px;
   border-radius: 25px;
   margin-right: 10px;
-  border-width: 2px;
-  border: 1px solid #fc4970;
 }
 .channel {
   background-color: rgb(235, 235, 235);
@@ -162,7 +160,6 @@
   width: 40px;
   border-radius: 20px;
   margin-right: 10px;
-  border: 1px solid #fc4970;
 }
 
 .line {
@@ -186,7 +183,6 @@
 
 .postImage {
   width: 100%;
-  border: 1px solid #fc4970;
 }
 
 @media (max-width:768px){

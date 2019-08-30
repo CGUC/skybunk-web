@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TextInput from '../Shared/TextInput/TextInput';
 import Button from '../Shared/Button/Button';
-import Header from '../Shared/Header/Header';
 import { withRouter } from 'react-router-dom';
 import ApiClient from '../../ApiClient';
 import '../Login/Login.css';
@@ -21,16 +20,22 @@ class EditAccount extends Component {
         };
     }
 
+    async componentDidMount() {
+        const user = await ApiClient.get(
+            '/users/loggedInUser', 
+            { authorized: true }
+        );
+        this.setState({
+            currentUser:user 
+        });
+    }
+
     updateFormStateFunc(key) {
         return (event) => {
             this.setState({
                 [key]: event.target.value,
             });
         };
-    }
-
-    goHome() {
-        this.props.history.push('/home');
     }
 
     async changePassword() {
@@ -41,12 +46,7 @@ class EditAccount extends Component {
             return;
         }
 
-        const currentUser = await ApiClient.get(
-            '/users/loggedInUser', 
-            { authorized: true }
-        );
-
-        if (currentUser._id !== this.props.match.params.id) {
+        if (this.state.currentUser._id !== this.props.match.params.id) {
             this.setState({error: 'Not authorized'});
             return;
         }
@@ -68,14 +68,9 @@ class EditAccount extends Component {
     }
 
     render() {
-        const { success, error } = this.state;
+        const { success, error, currentUser } = this.state;
         return (
             <div className="Main">
-                <Header>
-                    <p className="header-item" onClick={this.goHome.bind(this)}>
-                        Home
-                    </p>
-                </Header>
                 <div className="Register">
                     <div className="Card">
                         <h2>Change Password</h2>

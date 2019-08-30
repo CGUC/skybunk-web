@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
+import Header from './components/Shared/Header/Header';
 import EditAccount from './components/EditAccount/EditAccount'
 import './App.css';
 
@@ -20,7 +21,7 @@ class App extends Component {
 		return (
 			<div>
 				{this.getRedirect()}
-
+				<Header/>
 				<Switch>
 					<Route path="/login" component={Login}/>
 					<Route path="/home" component={Home}/>
@@ -30,5 +31,7 @@ class App extends Component {
 		);
 	}
 }
+
+
 
 export default App;
