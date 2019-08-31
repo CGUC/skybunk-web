@@ -62,13 +62,7 @@ class Header extends Component {
   async submitLogin() {
       this.setState({loading: true});
 
-      const response = await ApiClient.post(
-          '/users/login',
-          {
-              username: this.state.username,
-              password: this.state.password
-          }
-      );
+      const response = await ApiClient.login(this.state.username, this.state.password);
 
       if (response.err) {
           this.setState({
@@ -78,7 +72,8 @@ class Header extends Component {
           });
       }
       else {
-          ApiClient.setAuthToken(response.token);
+          ApiClient.setAuthToken(response[0].token);
+          ApiClient.setServers(response);
           this.setState({isLoggedIn: true, activePage: 'home'})
           this.goToFeed();
           const currentUser = await ApiClient.get(

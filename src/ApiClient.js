@@ -1,6 +1,7 @@
 import config from './config';
 
 var token;
+var servers;
 export default class ApiClient {
 	static formatHeaders(options){
 		const contentType = options.contentType ? options.contentType : 'application/json';
@@ -47,14 +48,30 @@ export default class ApiClient {
 		localStorage.setItem('skybunkToken', token);
 	}
 
+	static async getServerUrl() {
+		if (servers !== undefined) return servers[0].url;
+		servers = await localStorage.getItem('skybunkServers');
+		return servers[0].url;
+	};
+
+	static getServers() {
+		if (servers != undefined) return servers;
+		return localStorage.getItem('skybunkServers');
+	}
+
+	static setServers(_servers) {
+		servers = _servers
+		localStorage.setItem('skybunkServers', servers);
+	}
+
 	static clearAuthToken(){
 		localStorage.removeItem('skybunkToken');
 		token = undefined;
 	}
 
-	static get(endpoint, options={}) {
+	static async get(endpoint, options={}) {
 
-		return fetch(`${config.API_ADDRESS}${endpoint}`, {
+		return fetch(`${await this.getServerUrl()}${endpoint}`, {
 				method: 'GET',
 				headers: this.formatHeaders(options),
 			})
@@ -68,9 +85,33 @@ export default class ApiClient {
 			});
 	}
 
-	static post(endpoint, body, options={}) {
+	static async register(newUser, options={}) {
+		const authResponse = await fetch(`${config.AUTH_ADDRESS}/users`, {
+			method: 'POST',
+			headers: await this.formatHeaders(options),
+			body: JSON.stringify(newUser),
+		});
+		const authResponseJson = await authResponse.json();
 
-		return fetch(`${config.API_ADDRESS}${endpoint}`, {
+		if (authResponseJson.servers) {
+			this.setServers(authResponseJson.servers);
+			return await this.post('/users', newUser);
+		}
+		return {message: authResponseJson};
+	};
+
+	static async login(username, password, options={},) {
+		return fetch(`${config.AUTH_ADDRESS}/users/login`, {
+			method: 'POST',
+			headers: await this.formatHeaders(options),
+			body: JSON.stringify({username, password}),
+		}).then(response => response.json());
+	};
+
+
+	static async post(endpoint, body, options={}) {
+
+		return fetch(`${await this.getServerUrl()}${endpoint}`, {
 			method: 'POST',
 			headers: this.formatHeaders(options),
 			body: JSON.stringify(body),
@@ -85,7 +126,7 @@ export default class ApiClient {
 		});
 	};
 
-	static put(endpoint, body, options={}) {
+	static async put(endpoint, body, options={}) {
 		/**
 		 * HACKFIX (Neil): Sending too many notification objects with requests has
 		 * returned 413s and crashed the app. Here we're limiting the saved notifications to 30.
@@ -96,7 +137,7 @@ export default class ApiClient {
 			body.notifications = body.notifications.slice(0, 30);
 		} else console.log("No notifications being sent");
 
-		return fetch(`${config.API_ADDRESS}${endpoint}`, {
+		return fetch(`${await this.getServerUrl()}${endpoint}`, {
 			method: 'PUT',
 			headers: this.formatHeaders(options),
 			body: JSON.stringify(body),
@@ -118,7 +159,7 @@ export default class ApiClient {
 
 		let formData = new FormData();
 		formData.append(name, image);
-		return fetch(`${config.API_ADDRESS}${endpoint}`, {
+		return fetch(`${await this.getServerUrl()}${endpoint}`, {
 			method:  method,
 			headers: await this.formatHeadersForUpload({...options}),
 			body: formData,
@@ -133,9 +174,9 @@ export default class ApiClient {
 		});
 	}
 
-	static delete(endpoint, options={}) {
+	static async delete(endpoint, options={}) {
 
-		return fetch(`${config.API_ADDRESS}${endpoint}`, {
+		return fetch(`${this.getServerUrl()}${endpoint}`, {
 			method: 'DELETE',
 			headers:  this.formatHeaders(options)
 		})
