@@ -35,13 +35,7 @@ class Login extends Component {
     async submitLogin() {
         this.setState({loading: true});
 
-        const response = await ApiClient.post(
-            '/users/login',
-            {
-                username: this.state.username,
-                password: this.state.password
-            }
-        );
+        const response = await ApiClient.login(this.state.username, this.state.password);
 
         if (response.err) {
             this.setState({
@@ -52,6 +46,7 @@ class Login extends Component {
         }
         else {
             ApiClient.setAuthToken(response.token);
+            ApiClient.setServers(response.servers);
             this.props.history.push('/home');
         }
     }
@@ -59,8 +54,7 @@ class Login extends Component {
     async submitRegister() {
         this.setState({loading: true});
 
-        const response = await ApiClient.post(
-            '/users',
+        const response = await ApiClient.register(
             {
                 username: this.state.newUsername,
                 password: this.state.newPassword,
@@ -78,13 +72,7 @@ class Login extends Component {
             });
         }
         else {
-            const response = await ApiClient.post(
-                '/users/login',
-                {
-                    username: this.state.newUsername,
-                    password: this.state.newPassword
-                }
-            );
+            const response = await ApiClient.login(this.state.newUsername, this.state.newPassword);
 
             if (response.err) {
                 this.setState({
@@ -92,8 +80,9 @@ class Login extends Component {
                     loading: false,
                 });
             }
-            else {
-                ApiClient.setAuthToken(response.token);
+            else {  
+                ApiClient.setAuthToken(response[0].token);
+                ApiClient.setServers(response);
                 this.props.history.push('/home');
             }
         }
@@ -117,7 +106,7 @@ class Login extends Component {
       }
 
     render() {
-        const { loginError, resgisterError } = this.state;
+        const { loginError, registerError } = this.state;
         return (
             <div className="Main">
                 <div className="mobileLogin">
@@ -141,7 +130,7 @@ class Login extends Component {
                         <TextInput large name="newUsername" placeholder="Username" size={33} onChange={this.updateFormStateFunc('newUsername')}/>
                         <TextInput large type="password" name="newPassword" placeholder="Password" size={33} onChange={this.updateFormStateFunc('newPassword')}/>
                         <TextInput large name="goldenTicket" placeholder="Golden Ticket" size={33} onChange={this.updateFormStateFunc('goldenTicket')}/>
-                        {resgisterError ? <p style={{color: 'red'}}>*{resgisterError}</p> : null}
+                        {registerError ? <p style={{color: 'red'}}>*{registerError}</p> : null}
                         <Button large onClick={this.submitRegister.bind(this)}>
                             Register
                         </Button>

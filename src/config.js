@@ -1,9 +1,9 @@
-let address = 'https://skybunk-development.herokuapp.com';
+let address = 'https://skybunk-auth-dev.herokuapp.com';
 
-if (process.env.API_URL) {
-	address = process.env.API_URL;
+if (process.env.AUTH_ADDRESS) {
+	address = process.env.AUTH_ADDRESS;
 }
-
+console.log(address)
 module.exports = {
-  API_ADDRESS: address,
+  AUTH_ADDRESS: address,
 }
