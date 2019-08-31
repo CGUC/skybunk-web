@@ -3,6 +3,8 @@ import TextInput from '../Shared/TextInput/TextInput';
 import Button from '../Shared/Button/Button';
 import { withRouter } from 'react-router-dom';
 import ApiClient from '../../ApiClient';
+import tandc from './TermsAndConditionsCopy.js';
+import privacypolicy from './PrivacyPolicy.js';
 import '../Login/Login.css';
 import './EditAccount.css';
 
@@ -70,7 +72,7 @@ class EditAccount extends Component {
     render() {
         const { success, error, currentUser } = this.state;
         return (
-            <div className="Main">
+            <div className="EditAccountMain">
                 <div className="Register">
                     <div className="Card">
                         <h2>Change Password</h2>
@@ -82,6 +84,12 @@ class EditAccount extends Component {
                             Save
                         </Button>
                     </div>
+                </div>
+                <div className="Card"> 
+                    <h2> Privacy Policy </h2>
+                    <div className="BigTextBlock"> {privacypolicy} </div>
+                    <h2> Terms and Conditions </h2>
+                    <div className="BigTextBlock"> {tandc} </div>
                 </div>
             </div>
         );
