@@ -30,7 +30,7 @@ class Header extends Component {
     if(prevProps.location.pathname !== this.props.location.pathname) {
       this.updateIsLoggedIn();
     }
-    if(prevState.isLoggedIn !== this.state.isLoggedIn) {
+    if(this.state.isLoggedIn === true && prevState.isLoggedIn !== this.state.isLoggedIn) {
       this.getUser();
     }
   }
@@ -41,8 +41,10 @@ class Header extends Component {
 
   async getUser(){
     const currentUser = await ApiClient.get('/users/loggedInUser', { authorized: true });
-    this.setState({user: currentUser})
-    this.getProfilePic();
+    if(currentUser) {
+      this.setState({user: currentUser})
+      this.getProfilePic();
+    }
   }
 
   goToFeed(){
