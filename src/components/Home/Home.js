@@ -21,7 +21,6 @@ class Home extends Component {
 	async getUser() {
 
 		this.setState({ loading: true });
-
 		try {
 			var response = await ApiClient.get('/users/loggedInUser', { authorized: true });
 			this.setState({ user: response, loading: false });
