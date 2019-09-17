@@ -50,18 +50,18 @@ export default class ApiClient {
 
 	static async getServerUrl() {
 		if (servers !== undefined) return servers[0].url;
-		servers = await localStorage.getItem('skybunkServers');
+		servers = JSON.parse(await localStorage.getItem('skybunkServers'));
 		return servers[0].url;
 	};
 
 	static getServers() {
-		if (servers != undefined) return servers;
-		return localStorage.getItem('skybunkServers');
+		if (servers !== undefined) return servers;
+		return JSON.parse(localStorage.getItem('skybunkServers'));
 	}
 
 	static setServers(_servers) {
-		servers = _servers
-		localStorage.setItem('skybunkServers', servers);
+		servers = _servers;
+		localStorage.setItem('skybunkServers', JSON.stringify(servers));
 	}
 
 	static clearAuthToken(){
@@ -70,7 +70,6 @@ export default class ApiClient {
 	}
 
 	static async get(endpoint, options={}) {
-
 		return fetch(`${await this.getServerUrl()}${endpoint}`, {
 				method: 'GET',
 				headers: this.formatHeaders(options),

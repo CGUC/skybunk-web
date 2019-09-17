@@ -13,7 +13,6 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn : localStorage.getItem('skybunkToken') !== null ? true : false,
       activePage : 'home',
       loginError: null,
       profilePicture: null,
@@ -21,18 +20,30 @@ class Header extends Component {
   }
 
   async componentDidMount(){
-    if(localStorage.getItem('skybunkToken') !== null) {
-      const currentUser = await ApiClient.get(
-          '/users/loggedInUser',
-          { authorized: true }
-      );
-      this.setState({user: currentUser})
-      this.getProfilePic();
+    this.updateIsLoggedIn();
+    if(this.state.isLoggedIn) {
+      this.getUser();
     }
   }
 
-  async componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps, prevState) {
     if(prevProps.location.pathname !== this.props.location.pathname) {
+      this.updateIsLoggedIn();
+    }
+    if(this.state.isLoggedIn === true && prevState.isLoggedIn !== this.state.isLoggedIn) {
+      this.getUser();
+    }
+  }
+
+  updateIsLoggedIn(){
+      this.setState({isLoggedIn: this.props.location.pathname !== '/login'});
+  }
+
+  async getUser(){
+    const currentUser = await ApiClient.get('/users/loggedInUser', { authorized: true });
+    if(currentUser) {
+      this.setState({user: currentUser})
+      this.getProfilePic();
     }
   }
 
