@@ -83,7 +83,12 @@ class Header extends Component {
           });
       }
       else {
+        if(response[0] == null){ //reverse compatibility
+          ApiClient.setAuthToken(response.token);
+        }else{
           ApiClient.setAuthToken(response[0].token);
+        }
+          
           ApiClient.setServers(response);
           this.setState({isLoggedIn: true, activePage: 'home'})
           this.goToFeed();

@@ -49,9 +49,14 @@ export default class ApiClient {
 	}
 
 	static async getServerUrl() {
-		if (servers !== undefined) return servers[0].url;
-		servers = JSON.parse(await localStorage.getItem('skybunkServers'));
-		return servers[0].url;
+		if (servers == undefined){
+			servers = JSON.parse(await localStorage.getItem('skybunkServers'));
+		}
+		if(servers[0] !== undefined){
+			return servers[0].url;
+		}else{
+			return config.AUTH_ADDRESS;
+		}
 	};
 
 	static getServers() {
