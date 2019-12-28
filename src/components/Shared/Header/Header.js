@@ -36,15 +36,19 @@ class Header extends Component {
   }
 
   updateIsLoggedIn(){
-      this.setState({isLoggedIn: this.props.location.pathname !== '/login'});
+      this.setState({isLoggedIn: !this.props.location.pathname.includes('/reset') && this.props.location.pathname !== '/login' && this.props.location.pathname !== '/forgot'});
   }
 
   async getUser(){
-    const currentUser = await ApiClient.get('/users/loggedInUser', { authorized: true });
-    if(currentUser) {
-      this.setState({user: currentUser})
-      this.getProfilePic();
-    }
+    ApiClient.get('/users/loggedInUser', { authorized: true }).then((currentUser) =>{
+      if(currentUser) {
+        this.setState({user: currentUser})
+        this.getProfilePic();
+      }
+    }).catch((err) => {
+      console.error(err);
+    });
+    
   }
 
   goToFeed(){
@@ -69,6 +73,13 @@ class Header extends Component {
        this.setState({isLoggedIn: false, activePage: null, user:null});
      }
   }
+
+goToForgotPassword(){
+  if(this.props.location.pathname !== '/forgot') {
+    this.props.history.push('/forgot');
+    this.setState({activePage: 'forgot', isLoggedIn: false, user:null})
+  }
+}
 
   async submitLogin() {
       this.setState({loading: true});
@@ -148,6 +159,9 @@ class Header extends Component {
                 <TextInput type="password" name="password" placeholder="Password" onChange={this.updateFormStateFunc('password')} onKeyPress={this.pressLoginBtn}/>
                 <button onClick={this.submitLogin.bind(this)} className="Button LoginBtn">
                     Login
+                </button>
+                <button onClick={this.goToForgotPassword.bind(this)} className="Button LoginBtn">
+                    Forgot
                 </button>
             </div>
             {loginError ? <div className="LoginError">*{loginError}</div> : null}

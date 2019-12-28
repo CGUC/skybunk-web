@@ -64,6 +64,21 @@ export default class ApiClient {
 		return JSON.parse(localStorage.getItem('skybunkServers'));
 	}
 
+	static async getAllServers() {
+		return fetch(`${config.AUTH_ADDRESS}/servers`, {
+			method: 'GET',
+			headers: this.formatHeaders({}),
+		})
+		.then(response => response.json())
+		.then(responseJSON => {
+			return responseJSON;
+		})
+		.catch(err => {
+			err = err.replace(/</g, '').replace(/>/g, '');
+			console.error(err);
+		});
+	}
+
 	static setServers(_servers) {
 		servers = _servers;
 		localStorage.setItem('skybunkServers', JSON.stringify(servers));
@@ -111,6 +126,22 @@ export default class ApiClient {
 			body: JSON.stringify({username, password}),
 		}).then(response => response.json());
 	};
+
+	static async resetPassword(id, username, password, token) {
+		return fetch(`${config.AUTH_ADDRESS}/users/reset/${id}/${token}`, {
+			method: 'POST',
+			headers: this.formatHeaders({}),
+			body:  JSON.stringify({username, password}),
+		})
+		.then(response => response.json())
+		.then(responseJSON => {
+			return responseJSON;
+		})
+		.catch(err => {
+			err = err.replace(/</g, '').replace(/>/g, '');
+			console.error(err);
+		});
+	}
 
 
 	static async post(endpoint, body, options={}) {
