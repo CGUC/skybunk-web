@@ -119,6 +119,7 @@ export default class Post extends React.Component {
           .then(comments => {
             comments[comments.length - 1].author = { firstName: user.firstName, lastName: user.lastName }
             this.setState({
+              commentContent: '',
               comments
             })
           })
