@@ -66,6 +66,13 @@ class Header extends Component {
     }
   }
 
+  goToForgotPassword(){
+    if(this.props.location.pathname !== '/forgot') {
+      this.props.history.push('/forgot');
+      this.setState({activePage: 'forgot', isLoggedIn: false, user:null})
+    }
+  }
+
   logout(){
     if(this.props.location.pathname !== '/login') {
       localStorage.removeItem('skybunkToken');
@@ -73,13 +80,6 @@ class Header extends Component {
        this.setState({isLoggedIn: false, activePage: null, user:null});
      }
   }
-
-goToForgotPassword(){
-  if(this.props.location.pathname !== '/forgot') {
-    this.props.history.push('/forgot');
-    this.setState({activePage: 'forgot', isLoggedIn: false, user:null})
-  }
-}
 
   async submitLogin() {
       this.setState({loading: true});
@@ -211,7 +211,7 @@ goToForgotPassword(){
     let headerContents = this.state.isLoggedIn ? this.loggedInHeader() : this.notLoggedInHeader();
     return (
     	<div className="Header">
-        <div className="HeaderLeft">
+        <div onClick={this.goToFeed.bind(this)} className="HeaderLeft">
           <img className="HeaderLogo" src={SkybunkLogo}/>
       	  <div className="HeaderTitle">Skybunk</div>
         </div>

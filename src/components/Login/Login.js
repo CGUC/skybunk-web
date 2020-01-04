@@ -51,6 +51,12 @@ class Login extends Component {
         }
     }
 
+    goToForgotPassword(){
+        if(this.props.location.pathname !== '/forgot') {
+          this.props.history.push('/forgot');
+        }
+      }
+
     async submitRegister() {
         this.setState({loading: true});
 
@@ -114,9 +120,15 @@ class Login extends Component {
                         <h2>Login</h2>
                         <TextInput name="username" placeholder="Username" onChange={this.updateFormStateFunc('username')} onKeyPress={this.pressLoginBtn}/>
                         <TextInput type="password" name="password" placeholder="Password" onChange={this.updateFormStateFunc('password')} onKeyPress={this.pressLoginBtn}/>
-                        <button onClick={this.submitLogin.bind(this)} className="Button LoginBtn ButtonLarge">
-                            Login
-                        </button>
+                        <div>
+                            <button onClick={this.submitLogin.bind(this)} className="Button LoginBtn ButtonLarge">
+                                Login
+                            </button>
+                            <button onClick={this.goToForgotPassword.bind(this)} className="Button LoginBtn ButtonLarge">
+                                Forgot
+                            </button>
+                        </div>
+                        
                         {loginError ? <div className="LoginError">*{loginError}</div> : null}
                     </div>
                 </div>
