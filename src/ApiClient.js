@@ -49,14 +49,34 @@ export default class ApiClient {
 	}
 
 	static async getServerUrl() {
-		if (servers !== undefined) return servers[0].url;
-		servers = JSON.parse(await localStorage.getItem('skybunkServers'));
-		return servers[0].url;
+		if (servers == undefined){
+			servers = JSON.parse(await localStorage.getItem('skybunkServers'));
+		}
+		if(servers[0] !== undefined){
+			return servers[0].url;
+		}else{
+			return config.AUTH_ADDRESS;
+		}
 	};
 
 	static getServers() {
 		if (servers !== undefined) return servers;
 		return JSON.parse(localStorage.getItem('skybunkServers'));
+	}
+
+	static async getAllServers() {
+		return fetch(`${config.AUTH_ADDRESS}/servers`, {
+			method: 'GET',
+			headers: this.formatHeaders({}),
+		})
+		.then(response => response.json())
+		.then(responseJSON => {
+			return responseJSON;
+		})
+		.catch(err => {
+			err = err.replace(/</g, '').replace(/>/g, '');
+			console.error(err);
+		});
 	}
 
 	static setServers(_servers) {
@@ -106,6 +126,22 @@ export default class ApiClient {
 			body: JSON.stringify({username, password}),
 		}).then(response => response.json());
 	};
+
+	static async resetPassword(id, username, password, token) {
+		return fetch(`${config.AUTH_ADDRESS}/users/reset/${id}/${token}`, {
+			method: 'POST',
+			headers: this.formatHeaders({}),
+			body:  JSON.stringify({username, password}),
+		})
+		.then(response => response.json())
+		.then(responseJSON => {
+			return responseJSON;
+		})
+		.catch(err => {
+			err = err.replace(/</g, '').replace(/>/g, '');
+			console.error(err);
+		});
+	}
 
 
 	static async post(endpoint, body, options={}) {

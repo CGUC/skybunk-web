@@ -36,15 +36,19 @@ class Header extends Component {
   }
 
   updateIsLoggedIn(){
-      this.setState({isLoggedIn: this.props.location.pathname !== '/login'});
+      this.setState({isLoggedIn: !this.props.location.pathname.includes('/reset') && this.props.location.pathname !== '/login' && this.props.location.pathname !== '/forgot'});
   }
 
   async getUser(){
-    const currentUser = await ApiClient.get('/users/loggedInUser', { authorized: true });
-    if(currentUser) {
-      this.setState({user: currentUser})
-      this.getProfilePic();
-    }
+    ApiClient.get('/users/loggedInUser', { authorized: true }).then((currentUser) =>{
+      if(currentUser) {
+        this.setState({user: currentUser})
+        this.getProfilePic();
+      }
+    }).catch((err) => {
+      console.error(err);
+    });
+    
   }
 
   goToFeed(){
@@ -59,6 +63,13 @@ class Header extends Component {
     if (userId && this.props.location.pathname !== `/users/${userId}/edit`) {
       this.props.history.push(`/users/${userId}/edit`);
       this.setState({activePage: 'settings'})
+    }
+  }
+
+  goToForgotPassword(){
+    if(this.props.location.pathname !== '/forgot') {
+      this.props.history.push('/forgot');
+      this.setState({activePage: 'forgot', isLoggedIn: false, user:null})
     }
   }
 
@@ -83,7 +94,12 @@ class Header extends Component {
           });
       }
       else {
+        if(response[0] == null){ //reverse compatibility
+          ApiClient.setAuthToken(response.token);
+        }else{
           ApiClient.setAuthToken(response[0].token);
+        }
+          
           ApiClient.setServers(response);
           this.setState({isLoggedIn: true, activePage: 'home'})
           this.goToFeed();
@@ -144,6 +160,9 @@ class Header extends Component {
                 <button onClick={this.submitLogin.bind(this)} className="Button LoginBtn">
                     Login
                 </button>
+                <button onClick={this.goToForgotPassword.bind(this)} className="Button LoginBtn">
+                    Forgot
+                </button>
             </div>
             {loginError ? <div className="LoginError">*{loginError}</div> : null}
         </div>
@@ -192,7 +211,7 @@ class Header extends Component {
     let headerContents = this.state.isLoggedIn ? this.loggedInHeader() : this.notLoggedInHeader();
     return (
     	<div className="Header">
-        <div className="HeaderLeft">
+        <div onClick={this.goToFeed.bind(this)} className="HeaderLeft">
           <img className="HeaderLogo" src={SkybunkLogo}/>
       	  <div className="HeaderTitle">Skybunk</div>
         </div>

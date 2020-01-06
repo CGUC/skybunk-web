@@ -182,7 +182,7 @@ export default class Post extends React.Component {
     const comments = this.state.comments;
 
     var authorName = `${author.firstName} ${author.lastName}`;
-    var channel = `${tags[0]}`
+    var channel = `${tags && tags[0] ? tags[0] : null}`
     createdAt = date.format(createdAt, 'ddd MMM Do [at] h:mma');
 
     return (
