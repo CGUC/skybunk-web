@@ -112,15 +112,16 @@ class Channel extends Component {
         }
 
         return (
-          <div className={channelClassnames}  onClick={() => { this.onClickChannel(channel) }}>
-            <button className="IconButton" onClick={e => { 
-                e.stopPropagation();
+          <div className={channelClassnames}>
+            <button className="IconButton" onClick={() => { 
                 this.updateSubscription(channel._id, subIndex);
               }}>
               {hide ? <div style={{ width: '23px', height: '28px' }} /> : <img src={icon} className="BellIcon" />}
             </button>
-            <div className="ChannelTitle">
-                  {channel.name}
+            <div className="ChannelTitleContainer" onClick={() => { this.onClickChannel(channel) }}>
+              <div className="ChannelTitle" style={{ display: "flex"}} >
+                    {channel.name}
+              </div>
             </div>
           </div>
         )
