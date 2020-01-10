@@ -89,7 +89,6 @@ class Channel extends Component {
 
     return (
       sortedChannels.map((channel, key) => {
-
         var isSelected = channel._id === selectedChannel._id;
         var channelClassnames = "ChannelItem";
         if (isSelected) {
@@ -118,9 +117,9 @@ class Channel extends Component {
               }}>
               {hide ? <div style={{ width: '23px', height: '28px' }} /> : <img src={icon} className="BellIcon" />}
             </button>
-              <div className="ChannelTitle" onClick={() => { this.onClickChannel(channel) }}>
-                    {channel.name}
-              </div>
+            <div className="ChannelTitle" onClick={() => { this.onClickChannel(channel) }}>
+                  {channel.name}
+            </div>
           </div>
         )
       })
