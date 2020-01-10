@@ -24,11 +24,6 @@
 
 }
 
-.ChannelTitleContainer {
-    padding: 15px 0px;
-    width: 100%;
-}
-
 .IconButton {
     padding-bottom: 1px;
     margin: 0;
@@ -78,6 +73,8 @@
     text-overflow: ellipsis;
     float: left;
     cursor: pointer;
+    padding: 15px 0px;
+    width: 100%;
 }
 
 .ArrowIcon {

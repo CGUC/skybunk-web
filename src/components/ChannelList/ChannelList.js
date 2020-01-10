@@ -118,11 +118,9 @@ class Channel extends Component {
               }}>
               {hide ? <div style={{ width: '23px', height: '28px' }} /> : <img src={icon} className="BellIcon" />}
             </button>
-            <div className="ChannelTitleContainer" onClick={() => { this.onClickChannel(channel) }}>
-              <div className="ChannelTitle" style={{ display: "flex"}} >
+              <div className="ChannelTitle" onClick={() => { this.onClickChannel(channel) }}>
                     {channel.name}
               </div>
-            </div>
           </div>
         )
       })
