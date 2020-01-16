@@ -15,14 +15,12 @@
     align-items: center;
     direction: ltr;
     width: 230px;
-    padding-left: 10px;
-    padding-right: 10px;
+    
     line-height: 12px;
     background-color: #fff;
     border-bottom: black;
     border-bottom-width: 2px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding: 0px 10px;
 }
 
 .IconButton {
@@ -74,6 +72,8 @@
     text-overflow: ellipsis;
     float: left;
     cursor: pointer;
+    padding: 15px 0px;
+    width: 100%;
 }
 
 .ArrowIcon {
