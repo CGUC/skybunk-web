@@ -56,7 +56,7 @@ class ForgotPassword extends Component {
             url: this.state.selectedServer,
         }
 
-        ApiClient.post('/users/reset', userInfo, {}).then((response) =>{
+        ApiClient.post('/users/reset', userInfo, {url: this.state.selectedServer}).then((response) =>{
             console.log(response)
             this.setState({forgotError: response.toString()});
         });

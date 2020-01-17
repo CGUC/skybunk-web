@@ -145,8 +145,9 @@ export default class ApiClient {
 
 
 	static async post(endpoint, body, options={}) {
+		let url = options.url || await this.getServerUrl();
 
-		return fetch(`${await this.getServerUrl()}${endpoint}`, {
+		return fetch(`${url}${endpoint}`, {
 			method: 'POST',
 			headers: this.formatHeaders(options),
 			body: JSON.stringify(body),
